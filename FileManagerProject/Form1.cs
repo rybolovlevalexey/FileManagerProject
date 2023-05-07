@@ -57,11 +57,6 @@ namespace FileManagerProject
             this.textBox1.Text = value;
         }
 
-        private void EnterPushed(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             this.comboBox1.SelectedItem = this.comboBox1.Items[0];
@@ -80,7 +75,6 @@ namespace FileManagerProject
         {
 
         }
-
         private void GoBackDirectory()  // метод возврата назад по директории
         {
             if (current_path.Count > 1)
@@ -121,7 +115,6 @@ namespace FileManagerProject
                 this.lbl_curdir.Text = path;
             }
         }
-
         private void GoFrontDirectory(string next_dir)
         {
             current_path.Add(next_dir);
@@ -147,6 +140,12 @@ namespace FileManagerProject
             catch (IOException)
             {
                 MessageBox.Show("Выбран файл, а не папка");
+                current_path.RemoveAt(current_path.Count - 1);
+            }
+            catch (System.UnauthorizedAccessException)
+            {
+                MessageBox.Show("Невозможно открыть данную папку");
+                current_path.RemoveAt(current_path.Count - 1);
             }
         }  // метод движения вглубь директории
 
@@ -163,13 +162,17 @@ namespace FileManagerProject
                 this.GoBackDirectory();
             }
         }
-
         private void listBox1_MouseDown(object sender, MouseEventArgs e)  // обработка нажатий мышки на listBox
         {
             if (e.Button.ToString() == "XButton1")  // кнопка назад на мышке
             {
                 this.GoBackDirectory();
             }
+        }
+
+        private void toolStripLabel1_Click(object sender, EventArgs e)  // кнопка назад
+        {
+            this.GoBackDirectory();
         }
     }
 }
