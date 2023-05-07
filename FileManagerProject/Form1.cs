@@ -16,6 +16,7 @@ namespace FileManagerProject
         public Form1()
         {
             InitializeComponent();
+            InitForm();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -30,6 +31,23 @@ namespace FileManagerProject
                     output_dirs.Add(directories[i][root_dir_size..]);
             }
             this.listBox1.Items.AddRange(output_dirs.ToArray());
+        }
+
+        private void InitForm()
+        {
+            DriveInfo[] drives = DriveInfo.GetDrives();
+            this.comboBox1.Items.AddRange(drives);
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string value = this.listBox1.SelectedItem.ToString();
+            this.textBox1.Text = value;
+        }
+
+        private void comboBox1_EnterPushed(object sender, EventArgs e)
+        {
+            MessageBox.Show("here");
         }
     }
 }
