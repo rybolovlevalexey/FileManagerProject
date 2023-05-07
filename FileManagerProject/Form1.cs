@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace FileManagerProject
 {
@@ -17,5 +18,18 @@ namespace FileManagerProject
             InitializeComponent();
         }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string root_dir = @$"{this.comboBox1.SelectedItem}";
+            string[] directories = Directory.GetDirectories(root_dir);
+            List<string> output_dirs = new List<string>();
+            int root_dir_size = root_dir.Length;
+            for (int i = 0; i < directories.Length; i += 1)
+            {
+                if (!directories[i].Contains("$"))
+                    output_dirs.Add(directories[i][root_dir_size..]);
+            }
+            this.listBox1.Items.AddRange(output_dirs.ToArray());
+        }
     }
 }
