@@ -64,7 +64,7 @@ namespace FileManagerProject
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            this.comboBox1.SelectedItem = this.comboBox1.Items[0];
         }
 
         private void listBox1_KeyDown(object sender, KeyEventArgs e)
@@ -90,7 +90,7 @@ namespace FileManagerProject
                     this.listBox1.Items.AddRange(output_files.ToArray());
                 } catch (IOException)
                 {
-                    
+                    MessageBox.Show("Выбран файл, а не папка");
                 }
             }
         }
@@ -99,5 +99,6 @@ namespace FileManagerProject
         {
 
         }
+
     }
 }
