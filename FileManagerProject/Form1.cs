@@ -72,26 +72,7 @@ namespace FileManagerProject
             if (e.KeyCode == Keys.Enter)
             {
                 string value = this.listBox1.SelectedItem.ToString();
-                current_path.Add(value);
-
-                string path = string.Join(@"\", current_path);
-                try
-                {
-                    string[] output_dirs = Directory.GetDirectories(path);
-                    string[] output_files = Directory.GetFiles(path);
-                    for (int i = 0; i < output_dirs.Length; i += 1)
-                        output_dirs[i] = output_dirs[i][(path.Length + 1)..];
-                    for (int i = 0; i < output_files.Length; i += 1)
-                        output_files[i] = output_files[i][(path.Length + 1)..];
-
-                    this.textBox1.Text = "";
-                    this.listBox1.Items.Clear();
-                    this.listBox1.Items.AddRange(output_dirs.ToArray());
-                    this.listBox1.Items.AddRange(output_files.ToArray());
-                } catch (IOException)
-                {
-                    MessageBox.Show("Выбран файл, а не папка");
-                }
+                this.GoFrontDirectory(value);
             }
         }
 
@@ -100,5 +81,61 @@ namespace FileManagerProject
 
         }
 
+        private void GoBackDirectory()  // метод возврата назад по директории
+        {
+            if (current_path.Count > 1)
+            {
+                current_path.RemoveAt(current_path.Count - 1);
+                string path = string.Join(@"\", current_path);
+                string[] output_dirs = Directory.GetDirectories(path);
+                string[] output_files = Directory.GetFiles(path);
+                for (int i = 0; i < output_dirs.Length; i += 1)
+                    output_dirs[i] = output_dirs[i][(path.Length + 1)..];
+                for (int i = 0; i < output_files.Length; i += 1)
+                    output_files[i] = output_files[i][(path.Length + 1)..];
+
+                this.textBox1.Text = "";
+                this.listBox1.Items.Clear();
+                this.listBox1.Items.AddRange(output_dirs.ToArray());
+                this.listBox1.Items.AddRange(output_files.ToArray());
+
+                path = string.Join(@"\", current_path.ToArray()[1..]);
+                this.lbl_curdir.Text = path;
+            }
+        }
+
+        private void GoFrontDirectory(string next_dir)
+        {
+            current_path.Add(next_dir);
+
+            string path = string.Join(@"\", current_path);
+            try
+            {
+                string[] output_dirs = Directory.GetDirectories(path);
+                string[] output_files = Directory.GetFiles(path);
+                for (int i = 0; i < output_dirs.Length; i += 1)
+                    output_dirs[i] = output_dirs[i][(path.Length + 1)..];
+                for (int i = 0; i < output_files.Length; i += 1)
+                    output_files[i] = output_files[i][(path.Length + 1)..];
+
+                this.textBox1.Text = "";
+                this.listBox1.Items.Clear();
+                this.listBox1.Items.AddRange(output_dirs.ToArray());
+                this.listBox1.Items.AddRange(output_files.ToArray());
+
+                path = string.Join(@"\", current_path.ToArray()[1..]);
+                this.lbl_curdir.Text = path;
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Выбран файл, а не папка");
+            }
+        }  // метод движения вглубь директории
+
+        private void listBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            string value = this.listBox1.SelectedItem.ToString();
+            this.GoFrontDirectory(value);
+        }
     }
 }
