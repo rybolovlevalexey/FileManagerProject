@@ -42,6 +42,12 @@ namespace FileManagerProject
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.del_btn = new System.Windows.Forms.Button();
+            this.rename_btn = new System.Windows.Forms.Button();
+            this.copy_btn = new System.Windows.Forms.Button();
+            this.arh_btn = new System.Windows.Forms.Button();
+            this.izbr_btn = new System.Windows.Forms.Button();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,7 +79,7 @@ namespace FileManagerProject
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.Location = new System.Drawing.Point(600, 30);
+            this.textBox1.Location = new System.Drawing.Point(600, 75);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(272, 33);
             this.textBox1.TabIndex = 2;
@@ -82,7 +88,7 @@ namespace FileManagerProject
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(545, 30);
+            this.label1.Location = new System.Drawing.Point(545, 78);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 25);
             this.label1.TabIndex = 3;
@@ -104,7 +110,8 @@ namespace FileManagerProject
             this.toolStripLabel1,
             this.toolStripSeparator1,
             this.toolStripLabel2,
-            this.toolStripSeparator2});
+            this.toolStripSeparator2,
+            this.toolStripComboBox1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(884, 25);
@@ -136,11 +143,71 @@ namespace FileManagerProject
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
+            // del_btn
+            // 
+            this.del_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.del_btn.Location = new System.Drawing.Point(547, 168);
+            this.del_btn.Name = "del_btn";
+            this.del_btn.Size = new System.Drawing.Size(325, 44);
+            this.del_btn.TabIndex = 6;
+            this.del_btn.Text = "Удалить";
+            this.del_btn.UseVisualStyleBackColor = true;
+            // 
+            // rename_btn
+            // 
+            this.rename_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.rename_btn.Location = new System.Drawing.Point(545, 218);
+            this.rename_btn.Name = "rename_btn";
+            this.rename_btn.Size = new System.Drawing.Size(325, 44);
+            this.rename_btn.TabIndex = 7;
+            this.rename_btn.Text = "Переименовать";
+            this.rename_btn.UseVisualStyleBackColor = true;
+            // 
+            // copy_btn
+            // 
+            this.copy_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.copy_btn.Location = new System.Drawing.Point(547, 268);
+            this.copy_btn.Name = "copy_btn";
+            this.copy_btn.Size = new System.Drawing.Size(325, 44);
+            this.copy_btn.TabIndex = 8;
+            this.copy_btn.Text = "Копировать";
+            this.copy_btn.UseVisualStyleBackColor = true;
+            // 
+            // arh_btn
+            // 
+            this.arh_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.arh_btn.Location = new System.Drawing.Point(547, 318);
+            this.arh_btn.Name = "arh_btn";
+            this.arh_btn.Size = new System.Drawing.Size(325, 44);
+            this.arh_btn.TabIndex = 9;
+            this.arh_btn.Text = "Архивировать";
+            this.arh_btn.UseVisualStyleBackColor = true;
+            // 
+            // izbr_btn
+            // 
+            this.izbr_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.izbr_btn.Location = new System.Drawing.Point(547, 368);
+            this.izbr_btn.Name = "izbr_btn";
+            this.izbr_btn.Size = new System.Drawing.Size(325, 44);
+            this.izbr_btn.TabIndex = 10;
+            this.izbr_btn.Text = "Добавить путь в избранное";
+            this.izbr_btn.UseVisualStyleBackColor = true;
+            // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 561);
+            this.Controls.Add(this.izbr_btn);
+            this.Controls.Add(this.arh_btn);
+            this.Controls.Add(this.copy_btn);
+            this.Controls.Add(this.rename_btn);
+            this.Controls.Add(this.del_btn);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.lbl_curdir);
             this.Controls.Add(this.label1);
@@ -170,6 +237,12 @@ namespace FileManagerProject
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.Button del_btn;
+        private System.Windows.Forms.Button rename_btn;
+        private System.Windows.Forms.Button copy_btn;
+        private System.Windows.Forms.Button arh_btn;
+        private System.Windows.Forms.Button izbr_btn;
     }
 }
 

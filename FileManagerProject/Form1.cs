@@ -14,6 +14,7 @@ namespace FileManagerProject
     public partial class Form1 : Form
     {
         List<string> current_path = new List<string>();
+        List<string> saved_paths = new List<string>();
 
         public Form1()
         {
