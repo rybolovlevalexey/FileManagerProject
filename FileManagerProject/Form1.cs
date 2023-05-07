@@ -87,17 +87,35 @@ namespace FileManagerProject
             {
                 current_path.RemoveAt(current_path.Count - 1);
                 string path = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    path = current_path[0] + @"\";
                 string[] output_dirs = Directory.GetDirectories(path);
                 string[] output_files = Directory.GetFiles(path);
+                List<string> output = new List<string>();
                 for (int i = 0; i < output_dirs.Length; i += 1)
-                    output_dirs[i] = output_dirs[i][(path.Length + 1)..];
+                {
+                    if (!output_dirs[i].Contains("$"))
+                    {
+                        if (current_path.Count != 1)
+                            output.Add(output_dirs[i][(path.Length + 1)..]);
+                        else
+                            output.Add(output_dirs[i][(path.Length)..]);
+                    }
+                }
                 for (int i = 0; i < output_files.Length; i += 1)
-                    output_files[i] = output_files[i][(path.Length + 1)..];
+                {
+                    if (!output_files[i].Contains("$"))
+                    {
+                        if (current_path.Count != 1)
+                            output.Add(output_files[i][(path.Length + 1)..]);
+                        else
+                            output.Add(output_files[i][(path.Length)..]);
+                    }
+                }
 
                 this.textBox1.Text = "";
                 this.listBox1.Items.Clear();
-                this.listBox1.Items.AddRange(output_dirs.ToArray());
-                this.listBox1.Items.AddRange(output_files.ToArray());
+                this.listBox1.Items.AddRange(output.ToArray());
 
                 path = string.Join(@"\", current_path.ToArray()[1..]);
                 this.lbl_curdir.Text = path;
@@ -136,6 +154,22 @@ namespace FileManagerProject
         {
             string value = this.listBox1.SelectedItem.ToString();
             this.GoFrontDirectory(value);
+        }
+
+        private void Form1_MouseDown(object sender, MouseEventArgs e)  // обработка нажатий мышкой на Form
+        {
+            if (e.Button.ToString() == "XButton1")  // кнопка назад на мышке
+            {
+                this.GoBackDirectory();
+            }
+        }
+
+        private void listBox1_MouseDown(object sender, MouseEventArgs e)  // обработка нажатий мышки на listBox
+        {
+            if (e.Button.ToString() == "XButton1")  // кнопка назад на мышке
+            {
+                this.GoBackDirectory();
+            }
         }
     }
 }
