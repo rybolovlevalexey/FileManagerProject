@@ -42,12 +42,12 @@ namespace FileManagerProject
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.del_btn = new System.Windows.Forms.Button();
             this.rename_btn = new System.Windows.Forms.Button();
             this.copy_btn = new System.Windows.Forms.Button();
             this.arh_btn = new System.Windows.Forms.Button();
             this.izbr_btn = new System.Windows.Forms.Button();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,6 +143,11 @@ namespace FileManagerProject
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            // 
             // del_btn
             // 
             this.del_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -162,6 +167,7 @@ namespace FileManagerProject
             this.rename_btn.TabIndex = 7;
             this.rename_btn.Text = "Переименовать";
             this.rename_btn.UseVisualStyleBackColor = true;
+            this.rename_btn.Click += new System.EventHandler(this.rename_btn_Click);
             // 
             // copy_btn
             // 
@@ -192,11 +198,6 @@ namespace FileManagerProject
             this.izbr_btn.TabIndex = 10;
             this.izbr_btn.Text = "Добавить путь в избранное";
             this.izbr_btn.UseVisualStyleBackColor = true;
-            // 
-            // toolStripComboBox1
-            // 
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
             // 
             // Form1
             // 

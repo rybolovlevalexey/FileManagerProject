@@ -28,23 +28,9 @@ namespace FileManagerProject
             current_path.Clear();
             current_path.Add(root_dir[..(root_dir.Length - 1)]);
 
-            string[] directories = Directory.GetDirectories(root_dir);
-            string[] files = Directory.GetFiles(root_dir);
-            
-            List<string> output_dirs = new List<string>();
-            int root_dir_size = root_dir.Length;
-            for (int i = 0; i < directories.Length; i += 1)
-            {
-                if (!directories[i].Contains("$"))
-                    output_dirs.Add(directories[i][root_dir_size..]);
-            }
-            for (int i = 0; i < files.Length; i += 1)
-                output_dirs.Add(files[i][root_dir_size..]);
-
             this.listBox1.Items.Clear();
-            this.listBox1.Items.AddRange(output_dirs.ToArray());
+            this.listBox1.Items.AddRange(this.MakeOutputDirs(root_dir).ToArray());
         }
-
         private void InitForm()
         {
             DriveInfo[] drives = DriveInfo.GetDrives();
@@ -155,7 +141,6 @@ namespace FileManagerProject
             string value = this.listBox1.SelectedItem.ToString();
             this.GoFrontDirectory(value);
         }
-
         private void Form1_MouseDown(object sender, MouseEventArgs e)  // обработка нажатий мышкой на Form
         {
             if (e.Button.ToString() == "XButton1")  // кнопка назад на мышке
@@ -170,10 +155,74 @@ namespace FileManagerProject
                 this.GoBackDirectory();
             }
         }
-
         private void toolStripLabel1_Click(object sender, EventArgs e)  // кнопка назад
         {
             this.GoBackDirectory();
+        }
+
+        private void rename_btn_Click(object sender, EventArgs e)
+        {
+            string new_value = textBox1.Text;
+            string old_value;
+            try
+            {
+                if (listBox1.SelectedIndex.ToString() != "-1")
+                    old_value = listBox1.SelectedItem.ToString();
+                else
+                {
+                    MessageBox.Show("Выберите элемент,\nкоторый хотите переименовать");
+                    return;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Выберите элемент,\nкоторый хотите переименовать");
+                return;
+            }
+            if (old_value == new_value)
+            {
+                MessageBox.Show("Чтобы переименовать выбранный элемент\nвнести изменения в его название");
+                return;
+            }
+            if (new_value == "")
+            {
+                MessageBox.Show("Новое имя не может быть пустым");
+                return;
+            }
+            
+            string path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            if (File.Exists(path + @"\" + old_value))
+            {
+                if (new_value.EndsWith(Path.GetExtension(path + @"\" + old_value)))
+                    File.Move(path + @"\" + old_value, path + @"\" + new_value);
+                else
+                    MessageBox.Show("Нельзя менять расширение файла");
+            }
+            else
+            {
+                Directory.Move(path + @"\" + old_value, path + @"\" + new_value);
+            }
+            this.listBox1.Items.Clear();
+            this.listBox1.Items.AddRange(MakeOutputDirs(path).ToArray());
+        }
+
+        private List<string> MakeOutputDirs(string root_output_dir)
+        {
+            string[] directories = Directory.GetDirectories(root_output_dir);
+            string[] files = Directory.GetFiles(root_output_dir);
+
+            List<string> output_dirs = new List<string>();
+            int root_dir_size = root_output_dir.Length;
+            for (int i = 0; i < directories.Length; i += 1)
+            {
+                if (!directories[i].Contains("$"))
+                    output_dirs.Add(directories[i][root_dir_size..]);
+            }
+            for (int i = 0; i < files.Length; i += 1)
+                output_dirs.Add(files[i][root_dir_size..]);
+            return output_dirs;
         }
     }
 }
