@@ -84,27 +84,56 @@ namespace FileManagerProject
                 string[] output_dirs = Directory.GetDirectories(path);
                 string[] output_files = Directory.GetFiles(path);
                 List<string> output = new List<string>();
-                for (int i = 0; i < output_dirs.Length; i += 1)
+                if (toolStripLabel2.Text == "Сначала папки")
                 {
-                    if (!output_dirs[i].Contains("$"))
+                    for (int i = 0; i < output_dirs.Length; i += 1)
                     {
-                        if (current_path.Count != 1)
-                            output.Add(output_dirs[i][(path.Length + 1)..]);
-                        else
-                            output.Add(output_dirs[i][(path.Length)..]);
-                    }
-                }
-                for (int i = 0; i < output_files.Length; i += 1)
-                {
-                    if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
-                        !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
-                    {
-                        if (!output_files[i].Contains("$"))
+                        if (!output_dirs[i].Contains("$"))
                         {
                             if (current_path.Count != 1)
-                                output.Add(output_files[i][(path.Length + 1)..]);
+                                output.Add(output_dirs[i][(path.Length + 1)..]);
                             else
-                                output.Add(output_files[i][(path.Length)..]);
+                                output.Add(output_dirs[i][(path.Length)..]);
+                        }
+                    }
+                    for (int i = 0; i < output_files.Length; i += 1)
+                    {
+                        if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
+                            !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
+                        {
+                            if (!output_files[i].Contains("$"))
+                            {
+                                if (current_path.Count != 1)
+                                    output.Add(output_files[i][(path.Length + 1)..]);
+                                else
+                                    output.Add(output_files[i][(path.Length)..]);
+                            }
+                        }
+                    }
+                } else
+                {
+                    for (int i = 0; i < output_files.Length; i += 1)
+                    {
+                        if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
+                            !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
+                        {
+                            if (!output_files[i].Contains("$"))
+                            {
+                                if (current_path.Count != 1)
+                                    output.Add(output_files[i][(path.Length + 1)..]);
+                                else
+                                    output.Add(output_files[i][(path.Length)..]);
+                            }
+                        }
+                    }
+                    for (int i = 0; i < output_dirs.Length; i += 1)
+                    {
+                        if (!output_dirs[i].Contains("$"))
+                        {
+                            if (current_path.Count != 1)
+                                output.Add(output_dirs[i][(path.Length + 1)..]);
+                            else
+                                output.Add(output_dirs[i][(path.Length)..]);
                         }
                     }
                 }
@@ -132,12 +161,18 @@ namespace FileManagerProject
                     if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
                         !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
                         output_files[i] = output_files[i][(path.Length + 1)..];
+                this.listBox1.Items.Clear();
+                if (toolStripLabel2.Text == "Сначала папки")
+                {
+                    this.listBox1.Items.AddRange(output_dirs.ToArray());
+                    this.listBox1.Items.AddRange(output_files.ToArray());
+                } else
+                {
+                    this.listBox1.Items.AddRange(output_files.ToArray());
+                    this.listBox1.Items.AddRange(output_dirs.ToArray());
+                }
 
                 this.textBox1.Text = "";
-                this.listBox1.Items.Clear();
-                this.listBox1.Items.AddRange(output_dirs.ToArray());
-                this.listBox1.Items.AddRange(output_files.ToArray());
-
                 path = string.Join(@"\", current_path.ToArray()[1..]);
                 this.lbl_curdir.Text = path;
             }
@@ -232,15 +267,54 @@ namespace FileManagerProject
 
             List<string> output_dirs = new List<string>();
             int root_dir_size = root_output_dir.Length;
-            for (int i = 0; i < directories.Length; i += 1)
+            int delta = 0;
+            if (toolStripLabel2.Text == "Сначала папки")
             {
-                if (!directories[i].Contains("$"))
-                    output_dirs.Add(directories[i][root_dir_size..]);
+                for (int i = 0; i < directories.Length; i += 1)
+                {
+                    delta = 0;
+                    if (!directories[i].Contains("$"))
+                    {
+                        while (directories[i][(root_dir_size + delta)..][0].ToString() == @"\")
+                            delta += 1;
+                        output_dirs.Add(directories[i][(root_dir_size + delta)..]);
+                    }
+                }
+                for (int i = 0; i < files.Length; i += 1)
+                {
+                    delta = 0;
+                    if (!files[i].Contains("deskt") & !files[i].Contains("devlist") & !files[i].Contains("Dump") &
+                        !files[i].Contains("F306") & !files[i].Contains("sys"))
+                    {
+                        while (files[i][(root_dir_size + delta)..][0].ToString() == @"\")
+                            delta += 1;
+                        output_dirs.Add(files[i][(root_dir_size + delta)..]);
+                    }
+                }
+            } else
+            {
+                for (int i = 0; i < files.Length; i += 1)
+                {
+                    delta = 0;
+                    if (!files[i].Contains("deskt") & !files[i].Contains("devlist") & !files[i].Contains("Dump") &
+                        !files[i].Contains("F306") & !files[i].Contains("sys"))
+                    {
+                        while (files[i][(root_dir_size + delta)..].StartsWith(@"\"))
+                            delta += 1;
+                        output_dirs.Add(files[i][(root_dir_size + delta)..]);
+                    }
+                }
+                for (int i = 0; i < directories.Length; i += 1)
+                {
+                    delta = 0;
+                    if (!directories[i].Contains("$"))
+                    {
+                        while (directories[i][(root_dir_size + delta)..][0].ToString() == @"\")
+                            delta += 1;
+                        output_dirs.Add(directories[i][(root_dir_size + delta)..]);
+                    }
+                }
             }
-            for (int i = 0; i < files.Length; i += 1)
-                if (!files[i].Contains("deskt") & !files[i].Contains("devlist") & !files[i].Contains("Dump") & 
-                    !files[i].Contains("F306") & !files[i].Contains("sys"))
-                    output_dirs.Add(files[i][root_dir_size..]);
             return output_dirs;
         }  // создаёт список файлов и папок в текущей директории
         private void del_btn_Click(object sender, EventArgs e)  // удаление выбранного элемента после подтверждения
@@ -287,6 +361,22 @@ namespace FileManagerProject
 
             Form2 choose_dir = new Form2();
             choose_dir.ShowDialog();
+        }
+
+        private void toolStripLabel2_Click(object sender, EventArgs e)  // смена порядка вывода сначала папки/файлы
+        {
+            if (toolStripLabel2.Text == "Сначала папки")
+            {
+                toolStripLabel2.Text = "Сначала файлы";
+            } else
+            {
+                toolStripLabel2.Text = "Сначала папки";
+            }
+            listBox1.Items.Clear();
+            string path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
         }
     }
 }

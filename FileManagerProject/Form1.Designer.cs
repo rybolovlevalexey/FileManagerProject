@@ -42,7 +42,6 @@ namespace FileManagerProject
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.del_btn = new System.Windows.Forms.Button();
             this.rename_btn = new System.Windows.Forms.Button();
             this.copy_btn = new System.Windows.Forms.Button();
@@ -114,8 +113,7 @@ namespace FileManagerProject
             this.toolStripLabel1,
             this.toolStripSeparator1,
             this.toolStripLabel2,
-            this.toolStripSeparator2,
-            this.toolStripComboBox1});
+            this.toolStripSeparator2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(884, 25);
@@ -139,18 +137,14 @@ namespace FileManagerProject
             // 
             this.toolStripLabel2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(115, 22);
-            this.toolStripLabel2.Text = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(121, 22);
+            this.toolStripLabel2.Text = "Сначала папки";
+            this.toolStripLabel2.Click += new System.EventHandler(this.toolStripLabel2_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripComboBox1
-            // 
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
             // 
             // del_btn
             // 
@@ -288,7 +282,6 @@ namespace FileManagerProject
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
         private System.Windows.Forms.Button del_btn;
         private System.Windows.Forms.Button rename_btn;
         private System.Windows.Forms.Button copy_btn;
