@@ -83,12 +83,16 @@ namespace FileManagerProject
                 }
                 for (int i = 0; i < output_files.Length; i += 1)
                 {
-                    if (!output_files[i].Contains("$"))
+                    if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
+                        !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
                     {
-                        if (current_path.Count != 1)
-                            output.Add(output_files[i][(path.Length + 1)..]);
-                        else
-                            output.Add(output_files[i][(path.Length)..]);
+                        if (!output_files[i].Contains("$"))
+                        {
+                            if (current_path.Count != 1)
+                                output.Add(output_files[i][(path.Length + 1)..]);
+                            else
+                                output.Add(output_files[i][(path.Length)..]);
+                        }
                     }
                 }
 
@@ -112,7 +116,9 @@ namespace FileManagerProject
                 for (int i = 0; i < output_dirs.Length; i += 1)
                     output_dirs[i] = output_dirs[i][(path.Length + 1)..];
                 for (int i = 0; i < output_files.Length; i += 1)
-                    output_files[i] = output_files[i][(path.Length + 1)..];
+                    if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
+                        !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
+                        output_files[i] = output_files[i][(path.Length + 1)..];
 
                 this.textBox1.Text = "";
                 this.listBox1.Items.Clear();
@@ -133,7 +139,6 @@ namespace FileManagerProject
                 current_path.RemoveAt(current_path.Count - 1);
             }
         }  // метод движения вглубь директории
-
         private void listBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             string value = this.listBox1.SelectedItem.ToString();
