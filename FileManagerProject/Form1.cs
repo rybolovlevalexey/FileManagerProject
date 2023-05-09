@@ -72,6 +72,33 @@ namespace FileManagerProject
                     this.GoFrontDirectory(value);
                 }
             }
+            if (e.KeyCode == Keys.Delete)
+            {
+                if (this.listBox1.SelectedIndex != -1)
+                {
+                    string value = this.listBox1.SelectedItem.ToString();
+                    string path = string.Join(@"\", current_path);
+                    if (current_path.Count == 1)
+                        path += @"\";
+                    path += @"\" + value;
+                    if (File.Exists(path))
+                    {
+                        File.Delete(path);
+                        MessageBox.Show("Файл удалён");
+                    }
+                    else
+                    {
+                        this.DeleteDir(path);
+                        MessageBox.Show("Папка удалена");
+                    }
+                    listBox1.Items.Clear();
+                    path = string.Join(@"\", current_path);
+                    if (current_path.Count == 1)
+                        path += @"\";
+                    listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+                    textBox1.Text = "";
+                }
+            }
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -405,7 +432,7 @@ namespace FileManagerProject
                 CopyDir(s, to_dir + @"\" + Path.GetFileName(s));
         }
 
-        private void DeleteDir(string path)
+        private void DeleteDir(string path)  // рекурентное удаление папок и их содержимого
         {
             foreach (string s in Directory.GetFiles(path))
                 File.Delete(s);
