@@ -102,6 +102,7 @@ namespace FileManagerProject
             this.ok_btn.TabIndex = 7;
             this.ok_btn.Text = "OK";
             this.ok_btn.UseVisualStyleBackColor = true;
+            this.ok_btn.Click += new System.EventHandler(this.ok_btn_Click);
             // 
             // cancel_btn
             // 
@@ -112,6 +113,7 @@ namespace FileManagerProject
             this.cancel_btn.TabIndex = 8;
             this.cancel_btn.Text = "Cancel";
             this.cancel_btn.UseVisualStyleBackColor = true;
+            this.cancel_btn.Click += new System.EventHandler(this.cancel_btn_Click);
             // 
             // toolStrip1
             // 

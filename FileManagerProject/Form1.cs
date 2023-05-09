@@ -16,8 +16,6 @@ namespace FileManagerProject
         List<string> current_path = new List<string>();  // текущий путь
         List<string> saved_paths = new List<string>();  // кнопки для действий над файлами и папками
         List<Button> service_buttons = new List<Button>();  // кнопки с действиями
-        string copy_path = "";  // путь который надо копировать
-        List<string> path_to_copy = new List<string>();  // путь В который надо копировать
 
         public Form1()
         {
@@ -52,8 +50,12 @@ namespace FileManagerProject
         }
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string value = this.listBox1.SelectedItem.ToString();
-            this.textBox1.Text = value;
+            if (this.listBox1.SelectedIndex != -1)
+            {
+                string value = this.listBox1.SelectedItem.ToString();
+                this.textBox1.Text = value;
+            }
+            
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -64,8 +66,11 @@ namespace FileManagerProject
         {
             if (e.KeyCode == Keys.Enter)
             {
-                string value = this.listBox1.SelectedItem.ToString();
-                this.GoFrontDirectory(value);
+                if (this.listBox1.SelectedIndex != -1)
+                {
+                    string value = this.listBox1.SelectedItem.ToString();
+                    this.GoFrontDirectory(value);
+                }
             }
         }
 
@@ -189,8 +194,11 @@ namespace FileManagerProject
         }  // метод движения вглубь директории, передаётся следующая папка
         private void listBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            string value = this.listBox1.SelectedItem.ToString();
-            this.GoFrontDirectory(value);
+            if (this.listBox1.SelectedIndex != -1)
+            {
+                string value = this.listBox1.SelectedItem.ToString();
+                this.GoFrontDirectory(value);
+            }
         }  // двойное нажатие мышкой на список (переход вглубь папки)
         private void Form1_MouseDown(object sender, MouseEventArgs e)  // обработка нажатий мышкой на Form
         {
@@ -340,7 +348,7 @@ namespace FileManagerProject
                 {
                     if (Directory.Exists(path + value))
                     {
-                        Directory.Delete(path + value);
+                        this.DeleteDir(path + value);
                         MessageBox.Show("Выранная папка удалена");
                     }
                 }
@@ -350,7 +358,7 @@ namespace FileManagerProject
             }
         }
 
-        private void copy_btn_Click(object sender, EventArgs e)
+        private void copy_btn_Click(object sender, EventArgs e)  // копирование элемента в новое место, если в списке курсор стоит на директории то копирование будет внутрь этой директории
         {
             string value = textBox1.Text;
             if (value == "")
@@ -358,9 +366,57 @@ namespace FileManagerProject
                 MessageBox.Show("Выберите элемент,\nкоторый необходимо скопировать");
                 return;
             }
+            // путь который надо копировать
+            string copy_path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                copy_path += @"\";
+            copy_path += @"\" + value;
 
+            // получение пути в который надо копировать
             Form2 choose_dir = new Form2();
             choose_dir.ShowDialog();
+            switch (choose_dir.status_code)
+            {
+                case 0:
+                    break;
+                case 1:
+                    if (File.Exists(copy_path) & !File.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                    {
+                        File.Copy(copy_path, choose_dir.path_to_copy);
+                    } else
+                    {
+                        this.CopyDir(copy_path, choose_dir.path_to_copy);
+                    }
+                    break;
+                case 2:
+                    break;
+            }
+
+        }
+
+        private void CopyDir(string from_dir, string to_dir)
+        {
+            to_dir += from_dir[from_dir.LastIndexOf(@"\")..];
+            Directory.CreateDirectory(to_dir);
+            foreach (string s in Directory.GetFiles(from_dir))
+                if (!File.Exists(to_dir + @"\" + Path.GetFileName(s)))
+                    File.Copy(s, to_dir + @"\" + Path.GetFileName(s));
+            foreach (string s in Directory.GetDirectories(from_dir))
+                CopyDir(s, to_dir + @"\" + Path.GetFileName(s));
+        }
+
+        private void DeleteDir(string path)
+        {
+            foreach (string s in Directory.GetFiles(path))
+                File.Delete(s);
+            if (Directory.GetDirectories(path).Length == 0)
+                Directory.Delete(path);
+            else
+            {
+                foreach (string s in Directory.GetDirectories(path))
+                    DeleteDir(s);
+                Directory.Delete(path);
+            }
         }
 
         private void toolStripLabel2_Click(object sender, EventArgs e)  // смена порядка вывода сначала папки/файлы

@@ -16,8 +16,8 @@ namespace FileManagerProject
         List<string> current_path = new List<string>();  // текущий путь
         List<string> saved_paths = new List<string>();  // кнопки для действий над файлами и папками
         List<Button> service_buttons = new List<Button>();  // кнопки с действиями
-        string copy_path = "";  // путь который надо копировать
-        List<string> path_to_copy = new List<string>();  // путь В который надо копировать
+        public string path_to_copy;  // путь В который надо копировать
+        public int status_code;  // 0 - нажат cancel; 1 - нажат ok; 2 - нажат ok, но не выбран путь
 
         public Form2()
         {
@@ -183,5 +183,26 @@ namespace FileManagerProject
             return output_dirs;
         }  // создаёт список файлов и папок в текущей директории
 
+        private void ok_btn_Click(object sender, EventArgs e)
+        {
+            status_code = 1;
+            string path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            if (Directory.Exists(path + @"\" + textBox1.Text))
+            {
+                path += @"\" + textBox1.Text;
+            }
+            path_to_copy = path;
+            if (path_to_copy[path_to_copy.Length - 1] == path_to_copy[path_to_copy.Length - 2] & path_to_copy[path_to_copy.Length - 1].ToString() == @"\")
+                path_to_copy = path_to_copy[..(path_to_copy.Length - 1)];
+            this.Close();
+        }
+
+        private void cancel_btn_Click(object sender, EventArgs e)
+        {
+            status_code = 0;
+            this.Close();
+        }
     }
 }
