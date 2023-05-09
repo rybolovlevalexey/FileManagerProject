@@ -157,6 +157,7 @@ namespace FileManagerProject
             this.del_btn.TabIndex = 6;
             this.del_btn.Text = "Удалить";
             this.del_btn.UseVisualStyleBackColor = true;
+            this.del_btn.Click += new System.EventHandler(this.del_btn_Click);
             // 
             // rename_btn
             // 

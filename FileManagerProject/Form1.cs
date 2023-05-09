@@ -37,13 +37,11 @@ namespace FileManagerProject
             foreach (var elem in drives)
                 this.comboBox1.Items.Add(elem.ToString()[..elem.ToString().Length]);
         }
-
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             string value = this.listBox1.SelectedItem.ToString();
             this.textBox1.Text = value;
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             this.comboBox1.SelectedItem = this.comboBox1.Items[0];
@@ -164,9 +162,10 @@ namespace FileManagerProject
         {
             string new_value = textBox1.Text;
             string old_value;
+            string index = listBox1.SelectedIndex.ToString();
             try
             {
-                if (listBox1.SelectedIndex.ToString() != "-1")
+                if (index != "-1")
                     old_value = listBox1.SelectedItem.ToString();
                 else
                 {
@@ -206,6 +205,7 @@ namespace FileManagerProject
             }
             this.listBox1.Items.Clear();
             this.listBox1.Items.AddRange(MakeOutputDirs(path).ToArray());
+            this.listBox1.SelectedIndex = Convert.ToInt32(index);
         }
 
         private List<string> MakeOutputDirs(string root_output_dir)
@@ -221,8 +221,38 @@ namespace FileManagerProject
                     output_dirs.Add(directories[i][root_dir_size..]);
             }
             for (int i = 0; i < files.Length; i += 1)
-                output_dirs.Add(files[i][root_dir_size..]);
+                if (!files[i].Contains("deskt") & !files[i].Contains("devlist") & !files[i].Contains("Dump") & 
+                    !files[i].Contains("F306") & !files[i].Contains("sys"))
+                    output_dirs.Add(files[i][root_dir_size..]);
             return output_dirs;
+        }
+
+        private void del_btn_Click(object sender, EventArgs e)
+        {
+            string value = this.textBox1.Text;
+            DialogResult result = MessageBox.Show("Вы точно хотите удалить выбранный элемент?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                string path = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    path += @"\";
+                if (File.Exists(path + value))
+                {
+                    File.Delete(path + value);
+                    MessageBox.Show("Выбранный файл удалён");
+                }
+                else
+                {
+                    if (Directory.Exists(path + value))
+                    {
+                        Directory.Delete(path + value);
+                        MessageBox.Show("Выранная папка удалена");
+                    }
+                }
+                this.listBox1.Items.Clear();
+                this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+                this.textBox1.Text = "";
+            }
         }
     }
 }
