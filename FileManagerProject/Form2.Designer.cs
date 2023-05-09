@@ -36,6 +36,9 @@ namespace FileManagerProject
             this.lbl_curdir = new System.Windows.Forms.Label();
             this.ok_btn = new System.Windows.Forms.Button();
             this.cancel_btn = new System.Windows.Forms.Button();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -43,25 +46,30 @@ namespace FileManagerProject
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(2, 12);
+            this.comboBox1.Location = new System.Drawing.Point(2, 32);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(80, 38);
             this.comboBox1.TabIndex = 1;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // listBox1
             // 
             this.listBox1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 25;
-            this.listBox1.Location = new System.Drawing.Point(2, 56);
+            this.listBox1.Location = new System.Drawing.Point(2, 77);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(540, 479);
             this.listBox1.TabIndex = 2;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.listBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listBox1_KeyDown);
+            this.listBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseDoubleClick);
+            this.listBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseDown);
             // 
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.Location = new System.Drawing.Point(603, 56);
+            this.textBox1.Location = new System.Drawing.Point(603, 77);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(272, 33);
             this.textBox1.TabIndex = 3;
@@ -70,7 +78,7 @@ namespace FileManagerProject
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(548, 56);
+            this.label1.Location = new System.Drawing.Point(548, 77);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 25);
             this.label1.TabIndex = 4;
@@ -88,7 +96,7 @@ namespace FileManagerProject
             // ok_btn
             // 
             this.ok_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ok_btn.Location = new System.Drawing.Point(550, 195);
+            this.ok_btn.Location = new System.Drawing.Point(550, 258);
             this.ok_btn.Name = "ok_btn";
             this.ok_btn.Size = new System.Drawing.Size(325, 44);
             this.ok_btn.TabIndex = 7;
@@ -98,18 +106,37 @@ namespace FileManagerProject
             // cancel_btn
             // 
             this.cancel_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.cancel_btn.Location = new System.Drawing.Point(550, 258);
+            this.cancel_btn.Location = new System.Drawing.Point(550, 321);
             this.cancel_btn.Name = "cancel_btn";
             this.cancel_btn.Size = new System.Drawing.Size(325, 44);
             this.cancel_btn.TabIndex = 8;
             this.cancel_btn.Text = "Cancel";
             this.cancel_btn.UseVisualStyleBackColor = true;
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(884, 25);
+            this.toolStrip1.TabIndex = 9;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(27, 22);
+            this.toolStripLabel1.Text = "<-";
+            this.toolStripLabel1.Click += new System.EventHandler(this.toolStripLabel1_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 561);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.cancel_btn);
             this.Controls.Add(this.ok_btn);
             this.Controls.Add(this.lbl_curdir);
@@ -118,7 +145,11 @@ namespace FileManagerProject
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.comboBox1);
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.Text = "Выбор нового расположения";
+            this.Load += new System.EventHandler(this.Form2_Load);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,5 +164,7 @@ namespace FileManagerProject
         private System.Windows.Forms.Label lbl_curdir;
         private System.Windows.Forms.Button ok_btn;
         private System.Windows.Forms.Button cancel_btn;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
     }
 }

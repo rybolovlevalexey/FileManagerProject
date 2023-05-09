@@ -234,7 +234,6 @@ namespace FileManagerProject
             this.ok_button.TabIndex = 13;
             this.ok_button.Text = "OK";
             this.ok_button.UseVisualStyleBackColor = true;
-            this.ok_button.Click += new System.EventHandler(this.ok_button_Click);
             // 
             // cancel_btn
             // 
@@ -245,7 +244,6 @@ namespace FileManagerProject
             this.cancel_btn.TabIndex = 14;
             this.cancel_btn.Text = "Cancel";
             this.cancel_btn.UseVisualStyleBackColor = true;
-            this.cancel_btn.Click += new System.EventHandler(this.cancel_btn_Click);
             // 
             // Form1
             // 
