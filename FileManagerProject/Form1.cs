@@ -212,7 +212,6 @@ namespace FileManagerProject
             this.listBox1.Items.AddRange(MakeOutputDirs(path).ToArray());
             this.listBox1.SelectedIndex = Convert.ToInt32(index);
         }
-
         private List<string> MakeOutputDirs(string root_output_dir)
         {
             string[] directories = Directory.GetDirectories(root_output_dir);
@@ -231,7 +230,6 @@ namespace FileManagerProject
                     output_dirs.Add(files[i][root_dir_size..]);
             return output_dirs;
         }
-
         private void del_btn_Click(object sender, EventArgs e)
         {
             string value = this.textBox1.Text;
@@ -258,6 +256,11 @@ namespace FileManagerProject
                 this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
                 this.textBox1.Text = "";
             }
+        }
+
+        private void copy_btn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

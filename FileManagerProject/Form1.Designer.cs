@@ -48,6 +48,8 @@ namespace FileManagerProject
             this.copy_btn = new System.Windows.Forms.Button();
             this.arh_btn = new System.Windows.Forms.Button();
             this.izbr_btn = new System.Windows.Forms.Button();
+            this.make_btn = new System.Windows.Forms.Button();
+            this.move_btn = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -179,6 +181,7 @@ namespace FileManagerProject
             this.copy_btn.TabIndex = 8;
             this.copy_btn.Text = "Копировать";
             this.copy_btn.UseVisualStyleBackColor = true;
+            this.copy_btn.Click += new System.EventHandler(this.copy_btn_Click);
             // 
             // arh_btn
             // 
@@ -200,11 +203,33 @@ namespace FileManagerProject
             this.izbr_btn.Text = "Добавить путь в избранное";
             this.izbr_btn.UseVisualStyleBackColor = true;
             // 
+            // make_btn
+            // 
+            this.make_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.make_btn.Location = new System.Drawing.Point(547, 468);
+            this.make_btn.Name = "make_btn";
+            this.make_btn.Size = new System.Drawing.Size(325, 44);
+            this.make_btn.TabIndex = 11;
+            this.make_btn.Text = "Создать";
+            this.make_btn.UseVisualStyleBackColor = true;
+            // 
+            // move_btn
+            // 
+            this.move_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.move_btn.Location = new System.Drawing.Point(547, 418);
+            this.move_btn.Name = "move_btn";
+            this.move_btn.Size = new System.Drawing.Size(325, 44);
+            this.move_btn.TabIndex = 12;
+            this.move_btn.Text = "Переместить";
+            this.move_btn.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 561);
+            this.Controls.Add(this.move_btn);
+            this.Controls.Add(this.make_btn);
             this.Controls.Add(this.izbr_btn);
             this.Controls.Add(this.arh_btn);
             this.Controls.Add(this.copy_btn);
@@ -245,6 +270,8 @@ namespace FileManagerProject
         private System.Windows.Forms.Button copy_btn;
         private System.Windows.Forms.Button arh_btn;
         private System.Windows.Forms.Button izbr_btn;
+        private System.Windows.Forms.Button make_btn;
+        private System.Windows.Forms.Button move_btn;
     }
 }
 
