@@ -15,6 +15,8 @@ namespace FileManagerProject
     {
         List<string> current_path = new List<string>();
         List<string> saved_paths = new List<string>();
+        List<Button> service_buttons = new List<Button>();
+        bool is_copying_now = false;
 
         public Form1()
         {
@@ -36,6 +38,15 @@ namespace FileManagerProject
             DriveInfo[] drives = DriveInfo.GetDrives();
             foreach (var elem in drives)
                 this.comboBox1.Items.Add(elem.ToString()[..elem.ToString().Length]);
+            service_buttons.Add(this.del_btn);
+            service_buttons.Add(this.rename_btn);
+            service_buttons.Add(this.copy_btn);
+            service_buttons.Add(this.arh_btn);
+            service_buttons.Add(this.izbr_btn);
+            service_buttons.Add(this.move_btn);
+            service_buttons.Add(this.make_btn);
+            this.cancel_btn.Visible = false;
+            this.ok_button.Visible = false;
         }
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -260,7 +271,11 @@ namespace FileManagerProject
 
         private void copy_btn_Click(object sender, EventArgs e)
         {
-
+            foreach (var elem in service_buttons)
+                elem.Enabled = false;
+            this.ok_button.Visible = true;
+            this.cancel_btn.Visible = true;
+            is_copying_now = true;
         }
     }
 }

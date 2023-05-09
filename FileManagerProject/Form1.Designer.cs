@@ -50,6 +50,8 @@ namespace FileManagerProject
             this.izbr_btn = new System.Windows.Forms.Button();
             this.make_btn = new System.Windows.Forms.Button();
             this.move_btn = new System.Windows.Forms.Button();
+            this.ok_button = new System.Windows.Forms.Button();
+            this.cancel_btn = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,7 +62,7 @@ namespace FileManagerProject
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(1, 30);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(200, 38);
+            this.comboBox1.Size = new System.Drawing.Size(100, 38);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -101,7 +103,7 @@ namespace FileManagerProject
             // 
             this.lbl_curdir.AutoSize = true;
             this.lbl_curdir.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lbl_curdir.Location = new System.Drawing.Point(208, 30);
+            this.lbl_curdir.Location = new System.Drawing.Point(110, 30);
             this.lbl_curdir.Name = "lbl_curdir";
             this.lbl_curdir.Size = new System.Drawing.Size(0, 30);
             this.lbl_curdir.TabIndex = 4;
@@ -153,7 +155,7 @@ namespace FileManagerProject
             // del_btn
             // 
             this.del_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.del_btn.Location = new System.Drawing.Point(547, 168);
+            this.del_btn.Location = new System.Drawing.Point(547, 155);
             this.del_btn.Name = "del_btn";
             this.del_btn.Size = new System.Drawing.Size(325, 44);
             this.del_btn.TabIndex = 6;
@@ -164,7 +166,7 @@ namespace FileManagerProject
             // rename_btn
             // 
             this.rename_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.rename_btn.Location = new System.Drawing.Point(545, 218);
+            this.rename_btn.Location = new System.Drawing.Point(547, 205);
             this.rename_btn.Name = "rename_btn";
             this.rename_btn.Size = new System.Drawing.Size(325, 44);
             this.rename_btn.TabIndex = 7;
@@ -175,7 +177,7 @@ namespace FileManagerProject
             // copy_btn
             // 
             this.copy_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.copy_btn.Location = new System.Drawing.Point(547, 268);
+            this.copy_btn.Location = new System.Drawing.Point(547, 255);
             this.copy_btn.Name = "copy_btn";
             this.copy_btn.Size = new System.Drawing.Size(325, 44);
             this.copy_btn.TabIndex = 8;
@@ -186,7 +188,7 @@ namespace FileManagerProject
             // arh_btn
             // 
             this.arh_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.arh_btn.Location = new System.Drawing.Point(547, 318);
+            this.arh_btn.Location = new System.Drawing.Point(547, 305);
             this.arh_btn.Name = "arh_btn";
             this.arh_btn.Size = new System.Drawing.Size(325, 44);
             this.arh_btn.TabIndex = 9;
@@ -196,7 +198,7 @@ namespace FileManagerProject
             // izbr_btn
             // 
             this.izbr_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.izbr_btn.Location = new System.Drawing.Point(547, 368);
+            this.izbr_btn.Location = new System.Drawing.Point(547, 355);
             this.izbr_btn.Name = "izbr_btn";
             this.izbr_btn.Size = new System.Drawing.Size(325, 44);
             this.izbr_btn.TabIndex = 10;
@@ -206,7 +208,7 @@ namespace FileManagerProject
             // make_btn
             // 
             this.make_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.make_btn.Location = new System.Drawing.Point(547, 468);
+            this.make_btn.Location = new System.Drawing.Point(547, 455);
             this.make_btn.Name = "make_btn";
             this.make_btn.Size = new System.Drawing.Size(325, 44);
             this.make_btn.TabIndex = 11;
@@ -216,18 +218,40 @@ namespace FileManagerProject
             // move_btn
             // 
             this.move_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.move_btn.Location = new System.Drawing.Point(547, 418);
+            this.move_btn.Location = new System.Drawing.Point(547, 405);
             this.move_btn.Name = "move_btn";
             this.move_btn.Size = new System.Drawing.Size(325, 44);
             this.move_btn.TabIndex = 12;
             this.move_btn.Text = "Переместить";
             this.move_btn.UseVisualStyleBackColor = true;
             // 
+            // ok_button
+            // 
+            this.ok_button.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ok_button.Location = new System.Drawing.Point(547, 505);
+            this.ok_button.Name = "ok_button";
+            this.ok_button.Size = new System.Drawing.Size(160, 44);
+            this.ok_button.TabIndex = 13;
+            this.ok_button.Text = "OK";
+            this.ok_button.UseVisualStyleBackColor = true;
+            // 
+            // cancel_btn
+            // 
+            this.cancel_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.cancel_btn.Location = new System.Drawing.Point(713, 505);
+            this.cancel_btn.Name = "cancel_btn";
+            this.cancel_btn.Size = new System.Drawing.Size(160, 44);
+            this.cancel_btn.TabIndex = 14;
+            this.cancel_btn.Text = "Cancel";
+            this.cancel_btn.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 561);
+            this.Controls.Add(this.cancel_btn);
+            this.Controls.Add(this.ok_button);
             this.Controls.Add(this.move_btn);
             this.Controls.Add(this.make_btn);
             this.Controls.Add(this.izbr_btn);
@@ -272,6 +296,8 @@ namespace FileManagerProject
         private System.Windows.Forms.Button izbr_btn;
         private System.Windows.Forms.Button make_btn;
         private System.Windows.Forms.Button move_btn;
+        private System.Windows.Forms.Button ok_button;
+        private System.Windows.Forms.Button cancel_btn;
     }
 }
 
