@@ -62,7 +62,7 @@ namespace FileManagerProject
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(1, 30);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(100, 38);
+            this.comboBox1.Size = new System.Drawing.Size(80, 38);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -103,7 +103,7 @@ namespace FileManagerProject
             // 
             this.lbl_curdir.AutoSize = true;
             this.lbl_curdir.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lbl_curdir.Location = new System.Drawing.Point(110, 30);
+            this.lbl_curdir.Location = new System.Drawing.Point(86, 30);
             this.lbl_curdir.Name = "lbl_curdir";
             this.lbl_curdir.Size = new System.Drawing.Size(0, 30);
             this.lbl_curdir.TabIndex = 4;
@@ -234,6 +234,7 @@ namespace FileManagerProject
             this.ok_button.TabIndex = 13;
             this.ok_button.Text = "OK";
             this.ok_button.UseVisualStyleBackColor = true;
+            this.ok_button.Click += new System.EventHandler(this.ok_button_Click);
             // 
             // cancel_btn
             // 
@@ -244,6 +245,7 @@ namespace FileManagerProject
             this.cancel_btn.TabIndex = 14;
             this.cancel_btn.Text = "Cancel";
             this.cancel_btn.UseVisualStyleBackColor = true;
+            this.cancel_btn.Click += new System.EventHandler(this.cancel_btn_Click);
             // 
             // Form1
             // 

@@ -17,6 +17,7 @@ namespace FileManagerProject
         List<string> saved_paths = new List<string>();
         List<Button> service_buttons = new List<Button>();
         bool is_copying_now = false;
+        string copy_path = "";
 
         public Form1()
         {
@@ -73,88 +74,94 @@ namespace FileManagerProject
         }
         private void GoBackDirectory()  // метод возврата назад по директории
         {
-            if (current_path.Count > 1)
+            if (!is_copying_now)
             {
-                current_path.RemoveAt(current_path.Count - 1);
-                string path = string.Join(@"\", current_path);
-                if (current_path.Count == 1)
-                    path = current_path[0] + @"\";
-                string[] output_dirs = Directory.GetDirectories(path);
-                string[] output_files = Directory.GetFiles(path);
-                List<string> output = new List<string>();
-                for (int i = 0; i < output_dirs.Length; i += 1)
+                if (current_path.Count > 1)
                 {
-                    if (!output_dirs[i].Contains("$"))
+                    current_path.RemoveAt(current_path.Count - 1);
+                    string path = string.Join(@"\", current_path);
+                    if (current_path.Count == 1)
+                        path = current_path[0] + @"\";
+                    string[] output_dirs = Directory.GetDirectories(path);
+                    string[] output_files = Directory.GetFiles(path);
+                    List<string> output = new List<string>();
+                    for (int i = 0; i < output_dirs.Length; i += 1)
                     {
-                        if (current_path.Count != 1)
-                            output.Add(output_dirs[i][(path.Length + 1)..]);
-                        else
-                            output.Add(output_dirs[i][(path.Length)..]);
-                    }
-                }
-                for (int i = 0; i < output_files.Length; i += 1)
-                {
-                    if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
-                        !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
-                    {
-                        if (!output_files[i].Contains("$"))
+                        if (!output_dirs[i].Contains("$"))
                         {
                             if (current_path.Count != 1)
-                                output.Add(output_files[i][(path.Length + 1)..]);
+                                output.Add(output_dirs[i][(path.Length + 1)..]);
                             else
-                                output.Add(output_files[i][(path.Length)..]);
+                                output.Add(output_dirs[i][(path.Length)..]);
                         }
                     }
+                    for (int i = 0; i < output_files.Length; i += 1)
+                    {
+                        if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
+                            !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
+                        {
+                            if (!output_files[i].Contains("$"))
+                            {
+                                if (current_path.Count != 1)
+                                    output.Add(output_files[i][(path.Length + 1)..]);
+                                else
+                                    output.Add(output_files[i][(path.Length)..]);
+                            }
+                        }
+                    }
+
+                    this.textBox1.Text = "";
+                    this.listBox1.Items.Clear();
+                    this.listBox1.Items.AddRange(output.ToArray());
+
+                    path = string.Join(@"\", current_path.ToArray()[1..]);
+                    this.lbl_curdir.Text = path;
                 }
-
-                this.textBox1.Text = "";
-                this.listBox1.Items.Clear();
-                this.listBox1.Items.AddRange(output.ToArray());
-
-                path = string.Join(@"\", current_path.ToArray()[1..]);
-                this.lbl_curdir.Text = path;
             }
         }
         private void GoFrontDirectory(string next_dir)
         {
-            current_path.Add(next_dir);
-
-            string path = string.Join(@"\", current_path);
-            try
+            if (!is_copying_now)
             {
-                string[] output_dirs = Directory.GetDirectories(path);
-                string[] output_files = Directory.GetFiles(path);
-                for (int i = 0; i < output_dirs.Length; i += 1)
-                    output_dirs[i] = output_dirs[i][(path.Length + 1)..];
-                for (int i = 0; i < output_files.Length; i += 1)
-                    if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
-                        !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
-                        output_files[i] = output_files[i][(path.Length + 1)..];
+                current_path.Add(next_dir);
 
-                this.textBox1.Text = "";
-                this.listBox1.Items.Clear();
-                this.listBox1.Items.AddRange(output_dirs.ToArray());
-                this.listBox1.Items.AddRange(output_files.ToArray());
+                string path = string.Join(@"\", current_path);
+                try
+                {
+                    string[] output_dirs = Directory.GetDirectories(path);
+                    string[] output_files = Directory.GetFiles(path);
+                    for (int i = 0; i < output_dirs.Length; i += 1)
+                        output_dirs[i] = output_dirs[i][(path.Length + 1)..];
+                    for (int i = 0; i < output_files.Length; i += 1)
+                        if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
+                            !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
+                            output_files[i] = output_files[i][(path.Length + 1)..];
 
-                path = string.Join(@"\", current_path.ToArray()[1..]);
-                this.lbl_curdir.Text = path;
+                    this.textBox1.Text = "";
+                    this.listBox1.Items.Clear();
+                    this.listBox1.Items.AddRange(output_dirs.ToArray());
+                    this.listBox1.Items.AddRange(output_files.ToArray());
+
+                    path = string.Join(@"\", current_path.ToArray()[1..]);
+                    this.lbl_curdir.Text = path;
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("Выбран файл, а не папка");
+                    current_path.RemoveAt(current_path.Count - 1);
+                }
+                catch (System.UnauthorizedAccessException)
+                {
+                    MessageBox.Show("Невозможно открыть данную папку");
+                    current_path.RemoveAt(current_path.Count - 1);
+                }
             }
-            catch (IOException)
-            {
-                MessageBox.Show("Выбран файл, а не папка");
-                current_path.RemoveAt(current_path.Count - 1);
-            }
-            catch (System.UnauthorizedAccessException)
-            {
-                MessageBox.Show("Невозможно открыть данную папку");
-                current_path.RemoveAt(current_path.Count - 1);
-            }
-        }  // метод движения вглубь директории
+        }  // метод движения вглубь директории, передаётся следующая папка
         private void listBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             string value = this.listBox1.SelectedItem.ToString();
             this.GoFrontDirectory(value);
-        }
+        }  // двойное нажатие мышкой на список (переход вглубь папки)
         private void Form1_MouseDown(object sender, MouseEventArgs e)  // обработка нажатий мышкой на Form
         {
             if (e.Button.ToString() == "XButton1")  // кнопка назад на мышке
@@ -222,7 +229,7 @@ namespace FileManagerProject
             this.listBox1.Items.Clear();
             this.listBox1.Items.AddRange(MakeOutputDirs(path).ToArray());
             this.listBox1.SelectedIndex = Convert.ToInt32(index);
-        }
+        }  // переименование элемента, только если он выбран и новое название не противоречит исходному расширению
         private List<string> MakeOutputDirs(string root_output_dir)
         {
             string[] directories = Directory.GetDirectories(root_output_dir);
@@ -240,10 +247,15 @@ namespace FileManagerProject
                     !files[i].Contains("F306") & !files[i].Contains("sys"))
                     output_dirs.Add(files[i][root_dir_size..]);
             return output_dirs;
-        }
-        private void del_btn_Click(object sender, EventArgs e)
+        }  // создаёт список файлов и папок в текущей директории
+        private void del_btn_Click(object sender, EventArgs e)  // удаление выбранного элемента после подтверждения
         {
             string value = this.textBox1.Text;
+            if (value == "")
+            {
+                MessageBox.Show("Для удаления выберите элемент");
+                return;
+            }
             DialogResult result = MessageBox.Show("Вы точно хотите удалить выбранный элемент?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
@@ -271,11 +283,59 @@ namespace FileManagerProject
 
         private void copy_btn_Click(object sender, EventArgs e)
         {
+            string value = textBox1.Text;
+            if (value == "")
+            {
+                MessageBox.Show("Выберите элемент,\nкоторый необходимо скопировать");
+                return;
+            }
             foreach (var elem in service_buttons)
                 elem.Enabled = false;
             this.ok_button.Visible = true;
             this.cancel_btn.Visible = true;
             is_copying_now = true;
+            string path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            copy_path = path + value;
+        }
+
+        private void ok_button_Click(object sender, EventArgs e)
+        {
+
+
+            // восстановление формы к исходному виду после копирования выбранного элемента
+            foreach (var elem in service_buttons)
+                elem.Enabled = true;
+            this.ok_button.Visible = false;
+            this.cancel_btn.Visible = false;
+            is_copying_now = false;
+            copy_path = "";
+            string path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            this.listBox1.Items.Clear();
+            this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+            this.textBox1.Text = "";
+        }
+
+        private void cancel_btn_Click(object sender, EventArgs e)
+        {
+            if (is_copying_now)
+            {
+                foreach (var elem in service_buttons)
+                    elem.Enabled = true;
+                this.ok_button.Visible = false;
+                this.cancel_btn.Visible = false;
+                is_copying_now = false;
+                copy_path = "";
+            }
+            string path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            this.listBox1.Items.Clear();
+            this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+            this.textBox1.Text = "";
         }
     }
 }
