@@ -13,11 +13,12 @@ namespace FileManagerProject
 {
     public partial class Form1 : Form
     {
-        List<string> current_path = new List<string>();
-        List<string> saved_paths = new List<string>();
-        List<Button> service_buttons = new List<Button>();
-        bool is_copying_now = false;
-        string copy_path = "";
+        List<string> current_path = new List<string>();  // текущий путь
+        List<string> saved_paths = new List<string>();  // кнопки для действий над файлами и папками
+        List<Button> service_buttons = new List<Button>();  // кнопки с действиями
+        bool is_copying_now = false;  // флаг - происходит ли копирование в данный момент
+        string copy_path = "";  // путь который надо копировать
+        List<string> path_to_copy = new List<string>();  // путь В который надо копировать
 
         public Form1()
         {
@@ -28,11 +29,23 @@ namespace FileManagerProject
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)  // выпадающщий список с именем диска
         {
             string root_dir = @$"{this.comboBox1.SelectedItem}";
-            current_path.Clear();
-            current_path.Add(root_dir[..(root_dir.Length - 1)]);
-
-            this.listBox1.Items.Clear();
-            this.listBox1.Items.AddRange(this.MakeOutputDirs(root_dir).ToArray());
+            
+            if (!is_copying_now)
+            {
+                current_path.Clear();
+                current_path.Add(root_dir[..(root_dir.Length - 1)]);
+                this.listBox1.Items.Clear();
+                this.listBox1.Items.AddRange(this.MakeOutputDirs(root_dir).ToArray());
+            }
+            else
+            {
+                if (this.comboBox1.SelectedIndex != -1)
+                {
+                    path_to_copy.Add(root_dir[..(root_dir.Length - 1)]);
+                    this.listBox1.Items.Clear();
+                    this.listBox1.Items.AddRange(this.MakeOutputDirs(root_dir).ToArray());
+                }
+            }
         }
         private void InitForm()
         {
@@ -109,7 +122,7 @@ namespace FileManagerProject
                             }
                         }
                     }
-
+                    this.lbl_curdir.Text = "";
                     this.textBox1.Text = "";
                     this.listBox1.Items.Clear();
                     this.listBox1.Items.AddRange(output.ToArray());
@@ -289,6 +302,7 @@ namespace FileManagerProject
                 MessageBox.Show("Выберите элемент,\nкоторый необходимо скопировать");
                 return;
             }
+            // подготовка окна для выбора места куда копировать и подтверждения/отмены действия
             foreach (var elem in service_buttons)
                 elem.Enabled = false;
             this.ok_button.Visible = true;
@@ -298,11 +312,21 @@ namespace FileManagerProject
             if (current_path.Count == 1)
                 path += @"\";
             copy_path = path + value;
+
+            // очистка окна и поля с выбранным диском
+            this.listBox1.Items.Clear();
+            this.comboBox1.SelectedIndex = -1;
+            MessageBox.Show("Выберите диск и директорию для копирования");
         }
 
         private void ok_button_Click(object sender, EventArgs e)
         {
+            string root_dir = @$"{this.comboBox1.SelectedItem}";
+            current_path.Clear();
+            current_path.Add(root_dir[..(root_dir.Length - 1)]);
 
+            this.listBox1.Items.Clear();
+            this.listBox1.Items.AddRange(this.MakeOutputDirs(root_dir).ToArray());
 
             // восстановление формы к исходному виду после копирования выбранного элемента
             foreach (var elem in service_buttons)
@@ -336,6 +360,8 @@ namespace FileManagerProject
             this.listBox1.Items.Clear();
             this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
             this.textBox1.Text = "";
+            
+
         }
     }
 }
