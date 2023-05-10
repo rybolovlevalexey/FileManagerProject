@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.IO.Compression;
 
 namespace FileManagerProject
 {
@@ -516,6 +517,42 @@ namespace FileManagerProject
             this.listBox1.Items.Clear();
             this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
             this.textBox1.Text = "";
+        }
+
+        private void arh_btn_Click(object sender, EventArgs e)  // архивирование выбранного элемента
+        {
+            string path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            if (textBox1.Text == "")
+            {
+                MessageBox.Show("Выберите элемент который\nнеобходимо архивировать");
+                return;
+            }
+            path += @"\" + textBox1.Text;
+            if (Directory.Exists(path))
+            {
+                ZipFile.CreateFromDirectory(path, path + ".zip");
+                MessageBox.Show("Папка архивирована");
+            }
+            else
+            {
+                int count = 1;
+                if (Directory.Exists(path[..path.LastIndexOf(".")])) {
+                    while (Directory.Exists(path[..path.LastIndexOf(".")] + count.ToString()))
+                        count += 1;
+                    Directory.CreateDirectory(path[..path.LastIndexOf(".")] + count.ToString());
+                    File.Copy(path, path[..path.LastIndexOf(".")] + count.ToString());
+                    ZipFile.CreateFromDirectory(path[..path.LastIndexOf(".")] + count.ToString(), path[..path.LastIndexOf(".")] + count.ToString() + ".zip");
+                } else
+                {
+                    Directory.CreateDirectory(path[..path.LastIndexOf(".")]);
+                    File.Copy(path, path[..path.LastIndexOf(".")] + @"\" + textBox1.Text);
+                    ZipFile.CreateFromDirectory(path[..path.LastIndexOf(".")], path[..path.LastIndexOf(".")] + ".zip");
+                }
+                MessageBox.Show("Файл архивирован");
+            }
+
         }
     }
 }

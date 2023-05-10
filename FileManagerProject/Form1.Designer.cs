@@ -159,7 +159,7 @@ namespace FileManagerProject
             // rename_btn
             // 
             this.rename_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.rename_btn.Location = new System.Drawing.Point(547, 205);
+            this.rename_btn.Location = new System.Drawing.Point(545, 305);
             this.rename_btn.Name = "rename_btn";
             this.rename_btn.Size = new System.Drawing.Size(325, 44);
             this.rename_btn.TabIndex = 7;
@@ -170,7 +170,7 @@ namespace FileManagerProject
             // copy_btn
             // 
             this.copy_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.copy_btn.Location = new System.Drawing.Point(547, 255);
+            this.copy_btn.Location = new System.Drawing.Point(547, 205);
             this.copy_btn.Name = "copy_btn";
             this.copy_btn.Size = new System.Drawing.Size(325, 44);
             this.copy_btn.TabIndex = 8;
@@ -187,6 +187,7 @@ namespace FileManagerProject
             this.arh_btn.TabIndex = 9;
             this.arh_btn.Text = "Архивировать";
             this.arh_btn.UseVisualStyleBackColor = true;
+            this.arh_btn.Click += new System.EventHandler(this.arh_btn_Click);
             // 
             // izbr_btn
             // 
@@ -195,7 +196,7 @@ namespace FileManagerProject
             this.izbr_btn.Name = "izbr_btn";
             this.izbr_btn.Size = new System.Drawing.Size(325, 44);
             this.izbr_btn.TabIndex = 10;
-            this.izbr_btn.Text = "Добавить путь в избранное";
+            this.izbr_btn.Text = "Добавить в избранное";
             this.izbr_btn.UseVisualStyleBackColor = true;
             // 
             // make_btn
@@ -211,7 +212,7 @@ namespace FileManagerProject
             // move_btn
             // 
             this.move_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.move_btn.Location = new System.Drawing.Point(545, 305);
+            this.move_btn.Location = new System.Drawing.Point(545, 255);
             this.move_btn.Name = "move_btn";
             this.move_btn.Size = new System.Drawing.Size(325, 44);
             this.move_btn.TabIndex = 12;
