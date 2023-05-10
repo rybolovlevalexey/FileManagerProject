@@ -229,6 +229,7 @@ namespace FileManagerProject
             this.razarh_btn.TabIndex = 15;
             this.razarh_btn.Text = "Разархивировать";
             this.razarh_btn.UseVisualStyleBackColor = true;
+            this.razarh_btn.Click += new System.EventHandler(this.razarh_btn_Click);
             // 
             // Form1
             // 

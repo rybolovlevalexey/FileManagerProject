@@ -552,7 +552,52 @@ namespace FileManagerProject
                 }
                 MessageBox.Show("Файл архивирован");
             }
+            
+            path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            this.listBox1.Items.Clear();
+            this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+            this.textBox1.Text = "";
+        }
 
+        private void razarh_btn_Click(object sender, EventArgs e)
+        {
+            string path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            if (textBox1.Text == "")
+            {
+                MessageBox.Show("Выберите элемент который\nнеобходимо разархивировать");
+                return;
+            }
+            path += @"\" + textBox1.Text;
+            if (!path.Contains(".zip"))
+            {
+                MessageBox.Show("Вы выбрали не архив");
+                return;
+            }
+            int count = 1;
+            if (Directory.Exists(path[..path.LastIndexOf(".zip")]))
+            {
+                while (Directory.Exists(path[..path.LastIndexOf(".zip")] + count.ToString()))
+                    count += 1;
+                ZipFile.ExtractToDirectory(path, path[..path.LastIndexOf(".zip")] + count.ToString());
+                MessageBox.Show($"Выбранный архив разархивирован\nв папку {path[..path.LastIndexOf(".zip")] + count.ToString()}");
+            }
+            else
+            {
+                ZipFile.ExtractToDirectory(path, path[..path.LastIndexOf(".zip")]);
+                MessageBox.Show($"Выбранный архив разархивирован\nв папку {path[..path.LastIndexOf(".zip")]}");
+            }
+            
+            
+            path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            this.listBox1.Items.Clear();
+            this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+            this.textBox1.Text = "";
         }
     }
 }
