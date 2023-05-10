@@ -63,6 +63,53 @@ namespace FileManagerProject
 
         private void listBox1_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode.ToString() == "ControlKey")  // нажат ctrl, отключается возможность выбирать элементы listBox
+            {
+                this.listBox1.SelectionMode = SelectionMode.None;
+            }
+            if (e.Control && e.KeyCode == Keys.C)  // ctrl + C, копирование выбранного элемента, после обратно включается возможность выбора на listBox
+            {
+                string value = textBox1.Text;
+                if (value == "")
+                {
+                    MessageBox.Show("Выберите элемент,\nкоторый необходимо скопировать");
+                    return;
+                }
+                // путь который надо копировать
+                string copy_path = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    copy_path += @"\";
+                copy_path += @"\" + value;
+
+                // получение пути в который надо копировать
+                Form2 choose_dir = new Form2();
+                choose_dir.ShowDialog();
+                switch (choose_dir.status_code)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        if (File.Exists(choose_dir.path_to_copy + @"\" + value))
+                        {
+                            MessageBox.Show("Файл с таким названием уже существует в новой директории");
+                            return;
+                        }
+                        if (File.Exists(copy_path) && !File.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                        {
+                            File.Copy(copy_path, choose_dir.path_to_copy + @"\" + value);
+                        }
+                        else
+                        {
+                            this.CopyDir(copy_path, choose_dir.path_to_copy);
+                        }
+                        break;
+                    case 2:
+                        break;
+                }
+
+
+                this.listBox1.SelectionMode = SelectionMode.One;
+            }
             if (e.KeyCode == Keys.Enter)
             {
                 if (this.listBox1.SelectedIndex != -1)
@@ -133,8 +180,8 @@ namespace FileManagerProject
                     }
                     for (int i = 0; i < output_files.Length; i += 1)
                     {
-                        if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
-                            !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
+                        if (!output_files[i].Contains("deskt") && !output_files[i].Contains("devlist") && !output_files[i].Contains("Dump") &&
+                            !output_files[i].Contains("F306") && !output_files[i].Contains("sys"))
                         {
                             if (!output_files[i].Contains("$"))
                             {
@@ -149,8 +196,8 @@ namespace FileManagerProject
                 {
                     for (int i = 0; i < output_files.Length; i += 1)
                     {
-                        if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
-                            !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
+                        if (!output_files[i].Contains("deskt") && !output_files[i].Contains("devlist") && !output_files[i].Contains("Dump") &&
+                            !output_files[i].Contains("F306") && !output_files[i].Contains("sys"))
                         {
                             if (!output_files[i].Contains("$"))
                             {
@@ -193,8 +240,8 @@ namespace FileManagerProject
                 for (int i = 0; i < output_dirs.Length; i += 1)
                     output_dirs[i] = output_dirs[i][(path.Length + 1)..];
                 for (int i = 0; i < output_files.Length; i += 1)
-                    if (!output_files[i].Contains("deskt") & !output_files[i].Contains("devlist") & !output_files[i].Contains("Dump") &
-                        !output_files[i].Contains("F306") & !output_files[i].Contains("sys"))
+                    if (!output_files[i].Contains("deskt") && !output_files[i].Contains("devlist") && !output_files[i].Contains("Dump") &&
+                        !output_files[i].Contains("F306") && !output_files[i].Contains("sys"))
                         output_files[i] = output_files[i][(path.Length + 1)..];
                 this.listBox1.Items.Clear();
                 if (toolStripLabel2.Text == "Сначала папки")
@@ -321,8 +368,8 @@ namespace FileManagerProject
                 for (int i = 0; i < files.Length; i += 1)
                 {
                     delta = 0;
-                    if (!files[i].Contains("deskt") & !files[i].Contains("devlist") & !files[i].Contains("Dump") &
-                        !files[i].Contains("F306") & !files[i].Contains("sys"))
+                    if (!files[i].Contains("deskt") && !files[i].Contains("devlist") && !files[i].Contains("Dump") &&
+                        !files[i].Contains("F306") && !files[i].Contains("sys"))
                     {
                         while (files[i][(root_dir_size + delta)..][0].ToString() == @"\")
                             delta += 1;
@@ -334,8 +381,8 @@ namespace FileManagerProject
                 for (int i = 0; i < files.Length; i += 1)
                 {
                     delta = 0;
-                    if (!files[i].Contains("deskt") & !files[i].Contains("devlist") & !files[i].Contains("Dump") &
-                        !files[i].Contains("F306") & !files[i].Contains("sys"))
+                    if (!files[i].Contains("deskt") && !files[i].Contains("devlist") && !files[i].Contains("Dump") &&
+                        !files[i].Contains("F306") && !files[i].Contains("sys"))
                     {
                         while (files[i][(root_dir_size + delta)..].StartsWith(@"\"))
                             delta += 1;
@@ -410,9 +457,14 @@ namespace FileManagerProject
                 case 0:
                     break;
                 case 1:
-                    if (File.Exists(copy_path) & !File.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                    if (File.Exists(choose_dir.path_to_copy + @"\" + value))
                     {
-                        File.Copy(copy_path, choose_dir.path_to_copy);
+                        MessageBox.Show("Файл с таким названием уже существует в новой директории");
+                        return;
+                    }
+                    if (File.Exists(copy_path) && !File.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                    {
+                        File.Copy(copy_path, choose_dir.path_to_copy + @"\" + value);
                     } else
                     {
                         this.CopyDir(copy_path, choose_dir.path_to_copy);
@@ -434,7 +486,6 @@ namespace FileManagerProject
             foreach (string s in Directory.GetDirectories(from_dir))
                 CopyDir(s, to_dir + @"\" + Path.GetFileName(s));
         }
-
         private void DeleteDir(string path)  // рекурентное удаление папок и их содержимого
         {
             foreach (string s in Directory.GetFiles(path))
@@ -448,7 +499,6 @@ namespace FileManagerProject
                 Directory.Delete(path);
             }
         }
-
         private void toolStripLabel2_Click(object sender, EventArgs e)  // смена порядка вывода сначала папки/файлы
         {
             if (toolStripLabel2.Text == "Сначала папки")
@@ -487,14 +537,19 @@ namespace FileManagerProject
                 case 0:
                     break;
                 case 1:
-                    if (File.Exists(copy_path) & !File.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                    if (File.Exists(choose_dir.path_to_copy + @"\" + value))
                     {
-                        File.Copy(copy_path, choose_dir.path_to_copy);
+                        MessageBox.Show("Файл с таким названием уже существует в новой директории");
+                        return;
+                    }
+                    if (File.Exists(copy_path) && !File.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                    {
+                        File.Copy(copy_path, choose_dir.path_to_copy + @"\" + value);
                         MessageBox.Show("Выбранный файл перемещён");
                     }
                     else
                     {
-                        if (Directory.Exists(copy_path) & !Directory.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                        if (Directory.Exists(copy_path) && !Directory.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
                         {
                             this.CopyDir(copy_path, choose_dir.path_to_copy);
                             MessageBox.Show("Выбранная папка перемещена");
@@ -518,7 +573,6 @@ namespace FileManagerProject
             this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
             this.textBox1.Text = "";
         }
-
         private void arh_btn_Click(object sender, EventArgs e)  // архивирование выбранного элемента
         {
             string path = string.Join(@"\", current_path);
@@ -560,7 +614,6 @@ namespace FileManagerProject
             this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
             this.textBox1.Text = "";
         }
-
         private void razarh_btn_Click(object sender, EventArgs e)
         {
             string path = string.Join(@"\", current_path);
@@ -598,6 +651,11 @@ namespace FileManagerProject
             this.listBox1.Items.Clear();
             this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
             this.textBox1.Text = "";
+        }
+
+        private void izbr_btn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

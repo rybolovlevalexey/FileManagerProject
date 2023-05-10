@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Drawing;
 
 namespace FileManagerProject
 {
@@ -198,6 +199,7 @@ namespace FileManagerProject
             this.izbr_btn.TabIndex = 10;
             this.izbr_btn.Text = "Добавить в избранное";
             this.izbr_btn.UseVisualStyleBackColor = true;
+            this.izbr_btn.Click += new System.EventHandler(this.izbr_btn_Click);
             // 
             // make_btn
             // 
