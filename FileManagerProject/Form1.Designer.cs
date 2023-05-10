@@ -49,8 +49,7 @@ namespace FileManagerProject
             this.izbr_btn = new System.Windows.Forms.Button();
             this.make_btn = new System.Windows.Forms.Button();
             this.move_btn = new System.Windows.Forms.Button();
-            this.ok_button = new System.Windows.Forms.Button();
-            this.cancel_btn = new System.Windows.Forms.Button();
+            this.razarh_btn = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -137,7 +136,7 @@ namespace FileManagerProject
             // 
             this.toolStripLabel2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(121, 22);
+            this.toolStripLabel2.Size = new System.Drawing.Size(117, 22);
             this.toolStripLabel2.Text = "Сначала папки";
             this.toolStripLabel2.Click += new System.EventHandler(this.toolStripLabel2_Click);
             // 
@@ -182,7 +181,7 @@ namespace FileManagerProject
             // arh_btn
             // 
             this.arh_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.arh_btn.Location = new System.Drawing.Point(547, 305);
+            this.arh_btn.Location = new System.Drawing.Point(547, 355);
             this.arh_btn.Name = "arh_btn";
             this.arh_btn.Size = new System.Drawing.Size(325, 44);
             this.arh_btn.TabIndex = 9;
@@ -192,7 +191,7 @@ namespace FileManagerProject
             // izbr_btn
             // 
             this.izbr_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.izbr_btn.Location = new System.Drawing.Point(547, 355);
+            this.izbr_btn.Location = new System.Drawing.Point(547, 455);
             this.izbr_btn.Name = "izbr_btn";
             this.izbr_btn.Size = new System.Drawing.Size(325, 44);
             this.izbr_btn.TabIndex = 10;
@@ -202,7 +201,7 @@ namespace FileManagerProject
             // make_btn
             // 
             this.make_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.make_btn.Location = new System.Drawing.Point(547, 455);
+            this.make_btn.Location = new System.Drawing.Point(548, 505);
             this.make_btn.Name = "make_btn";
             this.make_btn.Size = new System.Drawing.Size(325, 44);
             this.make_btn.TabIndex = 11;
@@ -212,40 +211,30 @@ namespace FileManagerProject
             // move_btn
             // 
             this.move_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.move_btn.Location = new System.Drawing.Point(547, 405);
+            this.move_btn.Location = new System.Drawing.Point(545, 305);
             this.move_btn.Name = "move_btn";
             this.move_btn.Size = new System.Drawing.Size(325, 44);
             this.move_btn.TabIndex = 12;
             this.move_btn.Text = "Переместить";
             this.move_btn.UseVisualStyleBackColor = true;
+            this.move_btn.Click += new System.EventHandler(this.move_btn_Click);
             // 
-            // ok_button
+            // razarh_btn
             // 
-            this.ok_button.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ok_button.Location = new System.Drawing.Point(547, 505);
-            this.ok_button.Name = "ok_button";
-            this.ok_button.Size = new System.Drawing.Size(160, 44);
-            this.ok_button.TabIndex = 13;
-            this.ok_button.Text = "OK";
-            this.ok_button.UseVisualStyleBackColor = true;
-            // 
-            // cancel_btn
-            // 
-            this.cancel_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.cancel_btn.Location = new System.Drawing.Point(713, 505);
-            this.cancel_btn.Name = "cancel_btn";
-            this.cancel_btn.Size = new System.Drawing.Size(160, 44);
-            this.cancel_btn.TabIndex = 14;
-            this.cancel_btn.Text = "Cancel";
-            this.cancel_btn.UseVisualStyleBackColor = true;
+            this.razarh_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.razarh_btn.Location = new System.Drawing.Point(545, 405);
+            this.razarh_btn.Name = "razarh_btn";
+            this.razarh_btn.Size = new System.Drawing.Size(325, 44);
+            this.razarh_btn.TabIndex = 15;
+            this.razarh_btn.Text = "Разархивировать";
+            this.razarh_btn.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 561);
-            this.Controls.Add(this.cancel_btn);
-            this.Controls.Add(this.ok_button);
+            this.Controls.Add(this.razarh_btn);
             this.Controls.Add(this.move_btn);
             this.Controls.Add(this.make_btn);
             this.Controls.Add(this.izbr_btn);
@@ -289,8 +278,7 @@ namespace FileManagerProject
         private System.Windows.Forms.Button izbr_btn;
         private System.Windows.Forms.Button make_btn;
         private System.Windows.Forms.Button move_btn;
-        private System.Windows.Forms.Button ok_button;
-        private System.Windows.Forms.Button cancel_btn;
+        private System.Windows.Forms.Button razarh_btn;
     }
 }
 

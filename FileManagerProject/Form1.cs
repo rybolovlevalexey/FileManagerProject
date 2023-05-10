@@ -45,8 +45,6 @@ namespace FileManagerProject
             service_buttons.Add(this.izbr_btn);
             service_buttons.Add(this.move_btn);
             service_buttons.Add(this.make_btn);
-            this.cancel_btn.Visible = false;
-            this.ok_button.Visible = false;
         }
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -76,27 +74,31 @@ namespace FileManagerProject
             {
                 if (this.listBox1.SelectedIndex != -1)
                 {
-                    string value = this.listBox1.SelectedItem.ToString();
-                    string path = string.Join(@"\", current_path);
-                    if (current_path.Count == 1)
-                        path += @"\";
-                    path += @"\" + value;
-                    if (File.Exists(path))
+                    DialogResult result = MessageBox.Show("Вы точно хотите удалить выбранный элемент?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.Yes)
                     {
-                        File.Delete(path);
-                        MessageBox.Show("Файл удалён");
+                        string value = this.listBox1.SelectedItem.ToString();
+                        string path = string.Join(@"\", current_path);
+                        if (current_path.Count == 1)
+                            path += @"\";
+                        path += @"\" + value;
+                        if (File.Exists(path))
+                        {
+                            File.Delete(path);
+                            MessageBox.Show("Файл удалён");
+                        }
+                        else
+                        {
+                            this.DeleteDir(path);
+                            MessageBox.Show("Папка удалена");
+                        }
+                        listBox1.Items.Clear();
+                        path = string.Join(@"\", current_path);
+                        if (current_path.Count == 1)
+                            path += @"\";
+                        listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+                        textBox1.Text = "";
                     }
-                    else
-                    {
-                        this.DeleteDir(path);
-                        MessageBox.Show("Папка удалена");
-                    }
-                    listBox1.Items.Clear();
-                    path = string.Join(@"\", current_path);
-                    if (current_path.Count == 1)
-                        path += @"\";
-                    listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
-                    textBox1.Text = "";
                 }
             }
         }
@@ -460,6 +462,60 @@ namespace FileManagerProject
             if (current_path.Count == 1)
                 path += @"\";
             listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+        }
+
+        private void move_btn_Click(object sender, EventArgs e)  // перемещение файла или директории
+        {
+            string value = this.textBox1.Text;
+            if (value == "")
+            {
+                MessageBox.Show("Для перемещения выберите элемент");
+                return;
+            }
+            // путь который надо переместить
+            string copy_path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                copy_path += @"\";
+            copy_path += @"\" + value;
+
+            // получение пути в который надо переместить
+            Form2 choose_dir = new Form2();
+            choose_dir.ShowDialog();
+            switch (choose_dir.status_code)
+            {
+                case 0:
+                    break;
+                case 1:
+                    if (File.Exists(copy_path) & !File.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                    {
+                        File.Copy(copy_path, choose_dir.path_to_copy);
+                        MessageBox.Show("Выбранный файл перемещён");
+                    }
+                    else
+                    {
+                        if (Directory.Exists(copy_path) & !Directory.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                        {
+                            this.CopyDir(copy_path, choose_dir.path_to_copy);
+                            MessageBox.Show("Выбранная папка перемещена");
+                        } else
+                        {
+                            MessageBox.Show("Не верные вводные для перемещения,\nпопробуйте ещё раз");
+                        }
+                    }
+                    break;
+                case 2:
+                    break;
+            }
+
+            // удаление пути в старом расположении
+            this.DeleteDir(copy_path);
+
+            string path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            this.listBox1.Items.Clear();
+            this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+            this.textBox1.Text = "";
         }
     }
 }
