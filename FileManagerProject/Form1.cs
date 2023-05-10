@@ -15,8 +15,10 @@ namespace FileManagerProject
     public partial class Form1 : Form
     {
         List<string> current_path = new List<string>();  // текущий путь
-        List<string> saved_paths = new List<string>();  // кнопки для действий над файлами и папками
+        List<List<string>> saved_paths = new List<List<string>>();  // сохранённые пути - максимум 3
         List<Button> service_buttons = new List<Button>();  // кнопки с действиями
+        List<ToolStripLabel> strip_labels = new List<ToolStripLabel>(); // список с лейблами в шапке
+        ToolTip tool = new ToolTip();  // tool для лейблов в шапке
 
         public Form1()
         {
@@ -33,6 +35,7 @@ namespace FileManagerProject
             current_path.Add(root_dir[..(root_dir.Length - 1)]);
             this.listBox1.Items.Clear();
             this.listBox1.Items.AddRange(this.MakeOutputDirs(root_dir).ToArray());
+            this.lbl_curdir.Text = "";
         }
         private void InitForm()
         {
@@ -46,6 +49,13 @@ namespace FileManagerProject
             tool1.SetToolTip(this.izbr_btn, "Add to favourites");
             tool1.SetToolTip(this.make_btn, "Make");
 
+            this.toolStripLabel3.Enabled = false;
+            this.toolStripLabel4.Enabled = false;
+            this.toolStripLabel5.Enabled = false;
+            strip_labels.Add(this.toolStripLabel3);
+            strip_labels.Add(this.toolStripLabel4);
+            strip_labels.Add(this.toolStripLabel5);
+
             DriveInfo[] drives = DriveInfo.GetDrives();
             foreach (var elem in drives)
                 this.comboBox1.Items.Add(elem.ToString()[..elem.ToString().Length]);
@@ -56,6 +66,7 @@ namespace FileManagerProject
             service_buttons.Add(this.izbr_btn);
             service_buttons.Add(this.move_btn);
             service_buttons.Add(this.make_btn);
+            service_buttons.Add(this.razarh_btn);
         }
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -65,11 +76,11 @@ namespace FileManagerProject
                 this.textBox1.Text = value;
             }
             
-        }
+        }  // изменён выбранный элемент на списке
         private void Form1_Load(object sender, EventArgs e)
         {
             this.comboBox1.SelectedItem = this.comboBox1.Items[0];
-        }
+        }  // загрузка формы
 
         private void listBox1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -159,12 +170,12 @@ namespace FileManagerProject
                     }
                 }
             }
-        }
+        }  // обработка нажатий клавиш на listBox
 
         private void label1_Click(object sender, EventArgs e)
         {
 
-        }
+        } 
         private void GoBackDirectory()  // метод возврата назад по директории
         {
             if (current_path.Count > 1)
@@ -414,74 +425,88 @@ namespace FileManagerProject
         }  // создаёт список файлов и папок в текущей директории
         private void del_btn_Click(object sender, EventArgs e)  // удаление выбранного элемента после подтверждения
         {
-            string value = this.textBox1.Text;
-            if (value == "")
+            try
             {
-                MessageBox.Show("Для удаления выберите элемент");
-                return;
-            }
-            DialogResult result = MessageBox.Show("Вы точно хотите удалить выбранный элемент?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                string path = string.Join(@"\", current_path);
-                if (current_path.Count == 1)
-                    path += @"\";
-                if (File.Exists(path + value))
+                string value = this.textBox1.Text;
+                if (value == "")
                 {
-                    File.Delete(path + value);
-                    MessageBox.Show("Выбранный файл удалён");
+                    MessageBox.Show("Для удаления выберите элемент");
+                    return;
                 }
-                else
+                DialogResult result = MessageBox.Show("Вы точно хотите удалить выбранный элемент?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
                 {
-                    if (Directory.Exists(path + value))
+                    string path = string.Join(@"\", current_path);
+                    if (current_path.Count == 1)
+                        path += @"\";
+                    if (File.Exists(path + value))
                     {
-                        this.DeleteDir(path + value);
-                        MessageBox.Show("Выранная папка удалена");
+                        File.Delete(path + value);
+                        MessageBox.Show("Выбранный файл удалён");
                     }
+                    else
+                    {
+                        if (Directory.Exists(path + value))
+                        {
+                            this.DeleteDir(path + value);
+                            MessageBox.Show("Выбранная папка удалена");
+                        }
+                    }
+                    this.listBox1.Items.Clear();
+                    this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+                    this.textBox1.Text = "";
                 }
-                this.listBox1.Items.Clear();
-                this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
-                this.textBox1.Text = "";
+            }
+            catch
+            {
+                MessageBox.Show("У вас нет прав на удаление данного элемента");
             }
         }
-
         private void copy_btn_Click(object sender, EventArgs e)  // копирование элемента в новое место, если в списке курсор стоит на директории то копирование будет внутрь этой директории
         {
-            string value = textBox1.Text;
-            if (value == "")
+            try
             {
-                MessageBox.Show("Выберите элемент,\nкоторый необходимо скопировать");
-                return;
-            }
-            // путь который надо копировать
-            string copy_path = string.Join(@"\", current_path);
-            if (current_path.Count == 1)
-                copy_path += @"\";
-            copy_path += @"\" + value;
+                string value = textBox1.Text;
+                if (value == "")
+                {
+                    MessageBox.Show("Выберите элемент,\nкоторый необходимо скопировать");
+                    return;
+                }
+                // путь который надо копировать
+                string copy_path = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    copy_path += @"\";
+                copy_path += @"\" + value;
 
-            // получение пути в который надо копировать
-            Form2 choose_dir = new Form2();
-            choose_dir.ShowDialog();
-            switch (choose_dir.status_code)
+                // получение пути в который надо копировать
+                Form2 choose_dir = new Form2();
+                choose_dir.ShowDialog();
+                switch (choose_dir.status_code)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        if (File.Exists(choose_dir.path_to_copy + @"\" + value))
+                        {
+                            MessageBox.Show("Файл с таким названием уже существует в новой директории");
+                            return;
+                        }
+                        if (File.Exists(copy_path) && !File.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                        {
+                            File.Copy(copy_path, choose_dir.path_to_copy + @"\" + value);
+                        }
+                        else
+                        {
+                            this.CopyDir(copy_path, choose_dir.path_to_copy);
+                        }
+                        break;
+                    case 2:
+                        break;
+                }
+            }
+            catch
             {
-                case 0:
-                    break;
-                case 1:
-                    if (File.Exists(choose_dir.path_to_copy + @"\" + value))
-                    {
-                        MessageBox.Show("Файл с таким названием уже существует в новой директории");
-                        return;
-                    }
-                    if (File.Exists(copy_path) && !File.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
-                    {
-                        File.Copy(copy_path, choose_dir.path_to_copy + @"\" + value);
-                    } else
-                    {
-                        this.CopyDir(copy_path, choose_dir.path_to_copy);
-                    }
-                    break;
-                case 2:
-                    break;
+                MessageBox.Show("У вас нет прав на копирование выбранного элемента");
             }
 
         }
@@ -495,18 +520,25 @@ namespace FileManagerProject
                     File.Copy(s, to_dir + @"\" + Path.GetFileName(s));
             foreach (string s in Directory.GetDirectories(from_dir))
                 CopyDir(s, to_dir + @"\" + Path.GetFileName(s));
-        }
+        }  // рекурентное копирование директорий со всем содержимым
         private void DeleteDir(string path)  // рекурентное удаление папок и их содержимого
         {
-            foreach (string s in Directory.GetFiles(path))
-                File.Delete(s);
-            if (Directory.GetDirectories(path).Length == 0)
-                Directory.Delete(path);
-            else
+            try
             {
-                foreach (string s in Directory.GetDirectories(path))
-                    DeleteDir(s);
-                Directory.Delete(path);
+                foreach (string s in Directory.GetFiles(path))
+                    File.Delete(s);
+                if (Directory.GetDirectories(path).Length == 0)
+                    Directory.Delete(path);
+                else
+                {
+                    foreach (string s in Directory.GetDirectories(path))
+                        DeleteDir(s);
+                    Directory.Delete(path);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("У вас нет прав для удаления данной директории");
             }
         }
         private void toolStripLabel2_Click(object sender, EventArgs e)  // смена порядка вывода сначала папки/файлы
@@ -527,102 +559,119 @@ namespace FileManagerProject
 
         private void move_btn_Click(object sender, EventArgs e)  // перемещение файла или директории
         {
-            string value = this.textBox1.Text;
-            if (value == "")
+            try
             {
-                MessageBox.Show("Для перемещения выберите элемент");
-                return;
-            }
-            // путь который надо переместить
-            string copy_path = string.Join(@"\", current_path);
-            if (current_path.Count == 1)
-                copy_path += @"\";
-            copy_path += @"\" + value;
+                string value = this.textBox1.Text;
+                if (value == "")
+                {
+                    MessageBox.Show("Для перемещения выберите элемент");
+                    return;
+                }
+                // путь который надо переместить
+                string copy_path = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    copy_path += @"\";
+                copy_path += @"\" + value;
 
-            // получение пути в который надо переместить
-            Form2 choose_dir = new Form2();
-            choose_dir.ShowDialog();
-            switch (choose_dir.status_code)
-            {
-                case 0:
-                    break;
-                case 1:
-                    if (File.Exists(choose_dir.path_to_copy + @"\" + value))
-                    {
-                        MessageBox.Show("Файл с таким названием уже существует в новой директории");
+                // получение пути в который надо переместить
+                Form2 choose_dir = new Form2();
+                choose_dir.ShowDialog();
+                switch (choose_dir.status_code)
+                {
+                    case 0:
                         return;
-                    }
-                    if (File.Exists(copy_path) && !File.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
-                    {
-                        File.Copy(copy_path, choose_dir.path_to_copy + @"\" + value);
-                        MessageBox.Show("Выбранный файл перемещён");
-                    }
-                    else
-                    {
-                        if (Directory.Exists(copy_path) && !Directory.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                    case 1:
+                        if (File.Exists(choose_dir.path_to_copy + @"\" + value))
                         {
-                            this.CopyDir(copy_path, choose_dir.path_to_copy);
-                            MessageBox.Show("Выбранная папка перемещена");
-                        } else
-                        {
-                            MessageBox.Show("Не верные вводные для перемещения,\nпопробуйте ещё раз");
+                            MessageBox.Show("Файл с таким названием уже существует в новой директории");
+                            return;
                         }
-                    }
-                    break;
-                case 2:
-                    break;
+                        if (File.Exists(copy_path) && !File.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                        {
+                            File.Copy(copy_path, choose_dir.path_to_copy + @"\" + value);
+                            MessageBox.Show("Выбранный файл перемещён");
+                        }
+                        else
+                        {
+                            if (Directory.Exists(copy_path) && !Directory.Exists(choose_dir.path_to_copy + @"\" + copy_path[copy_path.LastIndexOf(@"\")..]))
+                            {
+                                this.CopyDir(copy_path, choose_dir.path_to_copy);
+                                MessageBox.Show("Выбранная папка перемещена");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Не верные вводные для перемещения,\nпопробуйте ещё раз");
+                                return;
+                            }
+                        }
+                        break;
+                    case 2:
+                        return;
+                }
+
+                // удаление пути в старом расположении
+                this.DeleteDir(copy_path);
+
+                string path = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    path += @"\";
+                this.listBox1.Items.Clear();
+                this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+                this.textBox1.Text = "";
             }
-
-            // удаление пути в старом расположении
-            this.DeleteDir(copy_path);
-
-            string path = string.Join(@"\", current_path);
-            if (current_path.Count == 1)
-                path += @"\";
-            this.listBox1.Items.Clear();
-            this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
-            this.textBox1.Text = "";
+            catch
+            {
+                MessageBox.Show("У вас нет прав на перемещение данного элемента");
+            }
         }
         private void arh_btn_Click(object sender, EventArgs e)  // архивирование выбранного элемента
         {
-            string path = string.Join(@"\", current_path);
-            if (current_path.Count == 1)
-                path += @"\";
-            if (textBox1.Text == "")
+            try
             {
-                MessageBox.Show("Выберите элемент который\nнеобходимо архивировать");
-                return;
-            }
-            path += @"\" + textBox1.Text;
-            if (Directory.Exists(path))
-            {
-                ZipFile.CreateFromDirectory(path, path + ".zip");
-                MessageBox.Show("Папка архивирована");
-            }
-            else
-            {
-                int count = 1;
-                if (Directory.Exists(path[..path.LastIndexOf(".")])) {
-                    while (Directory.Exists(path[..path.LastIndexOf(".")] + count.ToString()))
-                        count += 1;
-                    Directory.CreateDirectory(path[..path.LastIndexOf(".")] + count.ToString());
-                    File.Copy(path, path[..path.LastIndexOf(".")] + count.ToString());
-                    ZipFile.CreateFromDirectory(path[..path.LastIndexOf(".")] + count.ToString(), path[..path.LastIndexOf(".")] + count.ToString() + ".zip");
-                } else
+                string path = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    path += @"\";
+                if (textBox1.Text == "")
                 {
-                    Directory.CreateDirectory(path[..path.LastIndexOf(".")]);
-                    File.Copy(path, path[..path.LastIndexOf(".")] + @"\" + textBox1.Text);
-                    ZipFile.CreateFromDirectory(path[..path.LastIndexOf(".")], path[..path.LastIndexOf(".")] + ".zip");
+                    MessageBox.Show("Выберите элемент который\nнеобходимо архивировать");
+                    return;
                 }
-                MessageBox.Show("Файл архивирован");
+                path += @"\" + textBox1.Text;
+                if (Directory.Exists(path))
+                {
+                    ZipFile.CreateFromDirectory(path, path + ".zip");
+                    MessageBox.Show("Папка архивирована");
+                }
+                else
+                {
+                    int count = 1;
+                    if (Directory.Exists(path[..path.LastIndexOf(".")]))
+                    {
+                        while (Directory.Exists(path[..path.LastIndexOf(".")] + count.ToString()))
+                            count += 1;
+                        Directory.CreateDirectory(path[..path.LastIndexOf(".")] + count.ToString());
+                        File.Copy(path, path[..path.LastIndexOf(".")] + count.ToString());
+                        ZipFile.CreateFromDirectory(path[..path.LastIndexOf(".")] + count.ToString(), path[..path.LastIndexOf(".")] + count.ToString() + ".zip");
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(path[..path.LastIndexOf(".")]);
+                        File.Copy(path, path[..path.LastIndexOf(".")] + @"\" + textBox1.Text);
+                        ZipFile.CreateFromDirectory(path[..path.LastIndexOf(".")], path[..path.LastIndexOf(".")] + ".zip");
+                    }
+                    MessageBox.Show("Файл архивирован");
+                }
+
+                path = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    path += @"\";
+                this.listBox1.Items.Clear();
+                this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
+                this.textBox1.Text = "";
+            } catch
+            {
+                MessageBox.Show("У вас нет прав на архивирование данного элемента");
             }
-            
-            path = string.Join(@"\", current_path);
-            if (current_path.Count == 1)
-                path += @"\";
-            this.listBox1.Items.Clear();
-            this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
-            this.textBox1.Text = "";
         }
         private void razarh_btn_Click(object sender, EventArgs e)
         {
@@ -661,11 +710,65 @@ namespace FileManagerProject
             this.listBox1.Items.Clear();
             this.listBox1.Items.AddRange(this.MakeOutputDirs(path).ToArray());
             this.textBox1.Text = "";
-        }
+        }  // разархивирование выбранного элемента
 
         private void izbr_btn_Click(object sender, EventArgs e)
         {
+            if (saved_paths.Count == 3)
+            {
+                MessageBox.Show("Использовано максимально\nвозможное кол-во сохранений");
+                return;
+            }
+            if (textBox1.Text != "")
+            {
 
-        }
+            } else
+            {
+                saved_paths.Add(current_path);
+                strip_labels[saved_paths.Count - 1].Enabled = true;
+                //tool.SetToolTip(strip_labels[saved_paths.Count - 1], "");
+            }
+        }  // не работает
+
+        private void toolStripSettings_Click(object sender, EventArgs e)
+        {
+            SettingsWindow set_win = new SettingsWindow();
+            set_win.ShowDialog();
+            // set_win.track_bar_value.ToString() - значение от 0 до 10, размеры шрифта
+            if (set_win.buttons_colored)
+            {
+                for (int i = 0; i < service_buttons.Count; i += 1)
+                {
+                    service_buttons[i].BackColor = set_win.sp_buttons_color[i];
+                }
+            } else
+            {
+                for (int i = 0; i < service_buttons.Count; i += 1)
+                    service_buttons[i].BackColor = Color.LightGray;
+            }
+            if (set_win.black_theme_on)
+            {
+                this.listBox1.BackColor = Color.Black;
+                this.listBox1.ForeColor = Color.LightBlue;
+                this.BackColor = Color.Black;
+
+                comboBox1.BackColor = Color.Black;
+                comboBox1.ForeColor = Color.LightBlue;
+
+                label1.ForeColor = Color.LightBlue;
+                textBox1.BackColor = Color.Black;
+                textBox1.ForeColor = Color.LightBlue;
+
+                foreach (Button elem in service_buttons)
+                {
+                    elem.BackColor = Color.Black;
+                    elem.ForeColor = Color.LightBlue;
+                    elem.FlatAppearance.BorderColor = Color.DarkBlue;
+                }
+            } else
+            {
+
+            }
+        }  // не работает
     }
 }
