@@ -36,6 +36,16 @@ namespace FileManagerProject
         }
         private void InitForm()
         {
+            ToolTip tool1 = new ToolTip();
+            tool1.SetToolTip(this.del_btn, "Delete");
+            tool1.SetToolTip(this.copy_btn, "Copy");
+            tool1.SetToolTip(this.move_btn, "Move");
+            tool1.SetToolTip(this.rename_btn, "Rename");
+            tool1.SetToolTip(this.arh_btn, "Archive");
+            tool1.SetToolTip(this.razarh_btn, "Unzip");
+            tool1.SetToolTip(this.izbr_btn, "Add to favourites");
+            tool1.SetToolTip(this.make_btn, "Make");
+
             DriveInfo[] drives = DriveInfo.GetDrives();
             foreach (var elem in drives)
                 this.comboBox1.Items.Add(elem.ToString()[..elem.ToString().Length]);
