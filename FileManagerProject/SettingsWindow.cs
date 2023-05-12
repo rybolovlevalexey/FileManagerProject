@@ -10,19 +10,17 @@ namespace FileManagerProject
 {
     public partial class SettingsWindow : Form
     {
-        public int track_bar_value;
-        public bool buttons_colored = false;
-        public bool black_theme_on = false;
-        public List<Color> sp_buttons_color = new List<Color>();
+        public PersonSettings settings = new PersonSettings();
+
         public SettingsWindow()
         {
             InitializeComponent();
-            if (buttons_colored)
+            if (settings.ShouldColorButtons)
                 color_buttons_btn.BackColor = Color.Green;
             else
                 color_buttons_btn.BackColor = Color.Red;
             this.trackBar1.Value = 5;
-            if (black_theme_on)
+            if (settings.BlackThemeOn)
                 black_theme_btn.BackColor = Color.Green;
             else
                 black_theme_btn.BackColor = Color.Red;

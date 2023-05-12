@@ -76,11 +76,11 @@ namespace FileManagerProject
             // 
             // color_buttons_btn
             // 
-            this.color_buttons_btn.BackColor = System.Drawing.Color.Red;
+            this.color_buttons_btn.BackColor = System.Drawing.SystemColors.ControlDark;
             this.color_buttons_btn.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.color_buttons_btn.Location = new System.Drawing.Point(15, 81);
+            this.color_buttons_btn.Location = new System.Drawing.Point(12, 114);
             this.color_buttons_btn.Name = "color_buttons_btn";
-            this.color_buttons_btn.Size = new System.Drawing.Size(220, 44);
+            this.color_buttons_btn.Size = new System.Drawing.Size(457, 65);
             this.color_buttons_btn.TabIndex = 4;
             this.color_buttons_btn.Text = "Покраска кнопок";
             this.color_buttons_btn.UseVisualStyleBackColor = false;
@@ -88,13 +88,14 @@ namespace FileManagerProject
             // 
             // black_theme_btn
             // 
+            this.black_theme_btn.BackColor = System.Drawing.SystemColors.ControlDark;
             this.black_theme_btn.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.black_theme_btn.Location = new System.Drawing.Point(252, 81);
+            this.black_theme_btn.Location = new System.Drawing.Point(12, 235);
             this.black_theme_btn.Name = "black_theme_btn";
-            this.black_theme_btn.Size = new System.Drawing.Size(220, 44);
+            this.black_theme_btn.Size = new System.Drawing.Size(457, 68);
             this.black_theme_btn.TabIndex = 5;
             this.black_theme_btn.Text = "Тёмная тема";
-            this.black_theme_btn.UseVisualStyleBackColor = true;
+            this.black_theme_btn.UseVisualStyleBackColor = false;
             this.black_theme_btn.Click += new System.EventHandler(this.black_theme_btn_Click);
             // 
             // SettingsWindow

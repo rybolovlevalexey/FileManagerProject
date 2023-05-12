@@ -748,27 +748,49 @@ namespace FileManagerProject
             }
             if (set_win.black_theme_on)
             {
-                this.listBox1.BackColor = Color.Black;
-                this.listBox1.ForeColor = Color.LightBlue;
-                this.BackColor = Color.Black;
-
-                comboBox1.BackColor = Color.Black;
-                comboBox1.ForeColor = Color.LightBlue;
-
-                label1.ForeColor = Color.LightBlue;
-                textBox1.BackColor = Color.Black;
-                textBox1.ForeColor = Color.LightBlue;
-
-                foreach (Button elem in service_buttons)
-                {
-                    elem.BackColor = Color.Black;
-                    elem.ForeColor = Color.LightBlue;
-                    elem.FlatAppearance.BorderColor = Color.DarkBlue;
-                }
+                this.TurnOnBlackTheme();
             } else
             {
-
+                this.TurnOffBlackTheme();
             }
         }  // не работает
+
+        private void TurnOnBlackTheme()  // включение тёмной темы
+        {
+            this.listBox1.BackColor = Color.Black;
+            this.listBox1.ForeColor = Color.LightBlue;
+            this.BackColor = Color.Black;
+
+            comboBox1.BackColor = Color.Black;
+            comboBox1.ForeColor = Color.LightBlue;
+
+            label1.ForeColor = Color.LightBlue;
+            textBox1.BackColor = Color.Black;
+            textBox1.ForeColor = Color.LightBlue;
+
+            foreach (Button elem in service_buttons)
+            {
+                elem.BackColor = Color.Black;
+                elem.ForeColor = Color.LightBlue;
+                elem.FlatAppearance.BorderColor = Color.DarkBlue;
+            }
+        }
+        private void TurnOffBlackTheme()
+        {
+            this.listBox1.ResetBackColor();
+            this.listBox1.ResetForeColor();
+            this.BackColor = Color.WhiteSmoke;
+
+            label1.ForeColor = Color.Black;
+            textBox1.BackColor = Color.LightGray;
+            textBox1.ForeColor = Color.Black;
+
+            foreach (Button elem in service_buttons)
+            {
+                elem.BackColor = Color.LightGray;
+                elem.ForeColor = Color.Black;
+                elem.FlatAppearance.BorderColor = Color.DarkBlue;
+            }
+        }
     }
 }
