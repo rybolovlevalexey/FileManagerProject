@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace FileManagerProject
 {
@@ -15,6 +18,14 @@ namespace FileManagerProject
         public SettingsWindow()
         {
             InitializeComponent();
+            try
+            {
+                this.DeserializeForSetWin();
+            }
+            catch (FileNotFoundException)
+            {
+                settings = new PersonSettings();
+            }
             if (settings.ShouldColorButtons)
                 color_buttons_btn.BackColor = Color.Green;
             else
@@ -28,46 +39,58 @@ namespace FileManagerProject
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            track_bar_value = trackBar1.Value;
+            settings.track_bar_value = trackBar1.Value;
         }
 
         private void color_buttons_btn_Click(object sender, EventArgs e)
         {
-            if (buttons_colored)
+            if (settings.ShouldColorButtons)
             {
-                buttons_colored = false;
+                settings.ShouldColorButtons = false;
                 color_buttons_btn.BackColor = Color.Red;
             }
             else
             {
-                buttons_colored = true;
+                settings.ShouldColorButtons = true;
                 color_buttons_btn.BackColor = Color.Green;
-            }
-            sp_buttons_color.Clear();
-            if (buttons_colored)
-            {
-                Random rnd = new Random();
-                for (int i = 0; i < 8; i += 1)
-                {
-                    sp_buttons_color.Add(Color.FromArgb(Convert.ToInt32(rnd.Next(1, 255)), 
-                        Convert.ToInt32(rnd.Next(1, 255)), 
-                        Convert.ToInt32(rnd.Next(1, 255))));
-                }
             }
         }
 
         private void black_theme_btn_Click(object sender, EventArgs e)
         {
-            if (black_theme_on)
+            if (settings.BlackThemeOn)
             {
-                black_theme_on = false;
+                settings.BlackThemeOn = false;
                 black_theme_btn.BackColor = Color.Red;
             }
             else
             {
-                black_theme_on = true;
+                settings.BlackThemeOn = true;
                 black_theme_btn.BackColor = Color.Green;
             }
+        }
+
+        public void SerializeFromSetWin()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream fs = new FileStream("person.dat", FileMode.Create))
+            {
+                // Сериализуем объект в поток
+                formatter.Serialize(fs, settings);
+            }
+        }
+
+        public void DeserializeForSetWin()
+        {
+            byte[] bytes = File.ReadAllBytes("person.dat");
+            MemoryStream stream = new MemoryStream(bytes);
+            BinaryFormatter formatter = new BinaryFormatter();
+            settings = (PersonSettings)formatter.Deserialize(stream);
+        }
+
+        private void SettingsWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.SerializeFromSetWin();
         }
     }
 }

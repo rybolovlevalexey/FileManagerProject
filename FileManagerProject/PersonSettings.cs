@@ -27,11 +27,6 @@ namespace FileManagerProject
             set
             {
                 black_theme_on = value;
-                if (black_theme_on)
-                {
-                    if (should_color_buttons)
-                        should_color_buttons = false;
-                }
             }
         }
         public bool ShouldColorButtons
@@ -40,8 +35,8 @@ namespace FileManagerProject
             set
             {
                 should_color_buttons = value;
-                sp_buttons_color.Clear();
                 Random rnd = new Random();
+                sp_buttons_color = new List<Color>();
                 for (int i = 0; i < 10; i += 1)
                     sp_buttons_color.Add(Color.FromArgb(rnd.Next(1, 255), 
                         rnd.Next(1, 255), rnd.Next(1, 255)));

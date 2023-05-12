@@ -111,6 +111,7 @@ namespace FileManagerProject
             this.Controls.Add(this.label1);
             this.Name = "SettingsWindow";
             this.Text = "SettingsWindow";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SettingsWindow_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

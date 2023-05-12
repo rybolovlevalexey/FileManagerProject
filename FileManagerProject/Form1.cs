@@ -19,11 +19,13 @@ namespace FileManagerProject
         List<Button> service_buttons = new List<Button>();  // кнопки с действиями
         List<ToolStripLabel> strip_labels = new List<ToolStripLabel>(); // список с лейблами в шапке
         ToolTip tool = new ToolTip();  // tool для лейблов в шапке
+        SettingsWindow set_win = new SettingsWindow();  // создание окна с настройками
 
         public Form1()
         {
             InitializeComponent();
             InitForm();
+            CheckAndColorForm();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)  // выпадающщий список с именем диска
@@ -732,29 +734,36 @@ namespace FileManagerProject
 
         private void toolStripSettings_Click(object sender, EventArgs e)
         {
-            SettingsWindow set_win = new SettingsWindow();
             set_win.ShowDialog();
             // set_win.track_bar_value.ToString() - значение от 0 до 10, размеры шрифта
-            if (set_win.buttons_colored)
+            this.CheckAndColorForm();
+        }
+
+        private void CheckAndColorForm()
+        {
+            if (set_win.settings.BlackThemeOn && set_win.settings.ShouldColorButtons)
             {
+                this.TurnOnBlackTheme();
                 for (int i = 0; i < service_buttons.Count; i += 1)
-                {
-                    service_buttons[i].BackColor = set_win.sp_buttons_color[i];
-                }
-            } else
+                    service_buttons[i].BackColor = set_win.settings.sp_buttons_color[i];
+            }
+            else if (!set_win.settings.BlackThemeOn && !set_win.settings.ShouldColorButtons)
             {
+                this.TurnOffBlackTheme();
                 for (int i = 0; i < service_buttons.Count; i += 1)
                     service_buttons[i].BackColor = Color.LightGray;
             }
-            if (set_win.black_theme_on)
+            else if (set_win.settings.BlackThemeOn && !set_win.settings.ShouldColorButtons)
             {
                 this.TurnOnBlackTheme();
-            } else
+            }
+            else
             {
                 this.TurnOffBlackTheme();
+                for (int i = 0; i < service_buttons.Count; i += 1)
+                    service_buttons[i].BackColor = set_win.settings.sp_buttons_color[i];
             }
-        }  // не работает
-
+        }
         private void TurnOnBlackTheme()  // включение тёмной темы
         {
             this.listBox1.BackColor = Color.Black;
@@ -791,6 +800,6 @@ namespace FileManagerProject
                 elem.ForeColor = Color.Black;
                 elem.FlatAppearance.BorderColor = Color.DarkBlue;
             }
-        }
+        }  // выключение тёмной темы
     }
 }
