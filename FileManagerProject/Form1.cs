@@ -26,6 +26,7 @@ namespace FileManagerProject
             InitializeComponent();
             InitForm();
             CheckAndColorForm();
+            CheckAndChangeTextSize();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)  // выпадающщий список с именем диска
@@ -737,6 +738,7 @@ namespace FileManagerProject
             set_win.ShowDialog();
             // set_win.track_bar_value.ToString() - значение от 0 до 10, размеры шрифта
             this.CheckAndColorForm();
+            this.CheckAndChangeTextSize();
         }
 
         private void CheckAndColorForm()
@@ -763,7 +765,7 @@ namespace FileManagerProject
                 for (int i = 0; i < service_buttons.Count; i += 1)
                     service_buttons[i].BackColor = set_win.settings.sp_buttons_color[i];
             }
-        }
+        }    // проверка и подгонка формы под текущие цветовые настройки
         private void TurnOnBlackTheme()  // включение тёмной темы
         {
             this.listBox1.BackColor = Color.Black;
@@ -801,5 +803,42 @@ namespace FileManagerProject
                 elem.FlatAppearance.BorderColor = Color.DarkBlue;
             }
         }  // выключение тёмной темы
+        
+        private void CheckAndChangeTextSize()
+        {
+            // this.label1 - размер 14
+            // this.textBox1 - размер 14
+            // this.listBox1 - размер 14
+            // остальные размер 16
+            if (set_win.settings.track_bar_value >= 3 && set_win.settings.track_bar_value <= 7)
+            {
+                this.label1.Font = new Font(label1.Font.FontFamily, 14);
+                this.textBox1.Font = new Font(label1.Font.FontFamily, 14);
+                this.listBox1.Font = new Font(label1.Font.FontFamily, 14);
+                foreach (Button elem in service_buttons)
+                    elem.Font = new Font(label1.Font.FontFamily, 16);
+                this.comboBox1.Font = new Font(label1.Font.FontFamily, 16);
+                this.lbl_curdir.Font = new Font(label1.Font.FontFamily, 16);
+            } else if (set_win.settings.track_bar_value > 7)
+            {
+                this.label1.Font = new Font(label1.Font.FontFamily, 18);
+                this.textBox1.Font = new Font(label1.Font.FontFamily, 18);
+                this.listBox1.Font = new Font(label1.Font.FontFamily, 18);
+                foreach (Button elem in service_buttons)
+                    elem.Font = new Font(label1.Font.FontFamily, 20);
+                this.comboBox1.Font = new Font(label1.Font.FontFamily, 20);
+                this.lbl_curdir.Font = new Font(label1.Font.FontFamily, 20);
+
+            } else
+            {
+                this.label1.Font = new Font(label1.Font.FontFamily, 12);
+                this.textBox1.Font = new Font(label1.Font.FontFamily, 12);
+                this.listBox1.Font = new Font(label1.Font.FontFamily, 12);
+                foreach (Button elem in service_buttons)
+                    elem.Font = new Font(label1.Font.FontFamily, 14);
+                this.comboBox1.Font = new Font(label1.Font.FontFamily, 14);
+                this.lbl_curdir.Font = new Font(label1.Font.FontFamily, 14);
+            }
+        }
     }
 }

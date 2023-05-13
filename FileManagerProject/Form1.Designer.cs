@@ -89,9 +89,9 @@ namespace FileManagerProject
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.textBox1.Location = new System.Drawing.Point(600, 75);
+            this.textBox1.Location = new System.Drawing.Point(614, 75);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(272, 33);
+            this.textBox1.Size = new System.Drawing.Size(258, 33);
             this.textBox1.TabIndex = 2;
             // 
             // label1

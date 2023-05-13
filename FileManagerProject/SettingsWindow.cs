@@ -35,6 +35,7 @@ namespace FileManagerProject
                 black_theme_btn.BackColor = Color.Green;
             else
                 black_theme_btn.BackColor = Color.Red;
+            this.trackBar1.Value = settings.track_bar_value;
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
