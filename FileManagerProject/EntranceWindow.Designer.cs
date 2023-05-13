@@ -143,6 +143,7 @@ namespace FileManagerProject
             this.Controls.Add(this.label1);
             this.Name = "EntranceWindow";
             this.Text = "EntranceWindow";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.EntranceWindow_FormClosed);
             this.Load += new System.EventHandler(this.EntranceWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

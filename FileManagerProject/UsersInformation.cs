@@ -4,6 +4,7 @@ using System.Text;
 
 namespace FileManagerProject
 {
+    [Serializable]
     public class UsersInformation
     {
         private Dictionary<string, List<string>> users = new Dictionary<string, List<string>>(); // логин - пароль, ...

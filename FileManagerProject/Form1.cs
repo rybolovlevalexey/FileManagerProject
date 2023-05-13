@@ -785,6 +785,7 @@ namespace FileManagerProject
             comboBox1.BackColor = Color.Black;
             comboBox1.ForeColor = Color.LightBlue;
 
+            lbl_curdir.ForeColor = Color.LightCyan;
             label1.ForeColor = Color.LightBlue;
             textBox1.BackColor = Color.Black;
             textBox1.ForeColor = Color.LightBlue;
@@ -803,6 +804,7 @@ namespace FileManagerProject
             this.BackColor = Color.WhiteSmoke;
 
             label1.ForeColor = Color.Black;
+            lbl_curdir.ForeColor = Color.Black;
             textBox1.BackColor = Color.LightGray;
             textBox1.ForeColor = Color.Black;
 

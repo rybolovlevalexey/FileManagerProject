@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Windows.Forms;
 
@@ -14,6 +16,13 @@ namespace FileManagerProject
         public EntranceWindow()
         {
             InitializeComponent();
+            try
+            {
+                this.DeserializeForEntWin();
+            }
+            catch (FileNotFoundException)
+            {
+            }
             InitForm();
         }
 
@@ -22,7 +31,6 @@ namespace FileManagerProject
             this.comboBox1.Items.Clear();
             this.comboBox1.Items.AddRange(information.GetUsersLogin().ToArray());
         }
-
         private void entr_btn_Click(object sender, EventArgs e)
         {
             if (comboBox1.Items.Count == 0)
@@ -46,7 +54,6 @@ namespace FileManagerProject
             information.user_now = login;
             information.status_id = 1;
         }  // вход пользователя в уже созданный аккаунт после ввода пароля
-
         private void registr_btn_Click(object sender, EventArgs e)
         {
             string login = textBox1.Text;
@@ -60,10 +67,31 @@ namespace FileManagerProject
                 InitForm();
             }
         }
-
         private void EntranceWindow_Load(object sender, EventArgs e)
         {
             InitForm();
+        }
+        
+        public void DeserializeForEntWin()
+        {
+            byte[] bytes = File.ReadAllBytes("users.dat");
+            MemoryStream stream = new MemoryStream(bytes);
+            BinaryFormatter formatter = new BinaryFormatter();
+            information = (UsersInformation)formatter.Deserialize(stream);
+        }
+        public void SerializeFromSetWin()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (FileStream fs = new FileStream("users.dat", FileMode.Create))
+            {
+                // Сериализуем объект в поток
+                formatter.Serialize(fs, information);
+            }
+        }
+
+        private void EntranceWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            this.SerializeFromSetWin();
         }
     }
 }
