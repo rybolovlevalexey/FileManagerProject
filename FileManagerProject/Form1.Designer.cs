@@ -58,6 +58,8 @@ namespace FileManagerProject
             this.make_btn = new System.Windows.Forms.Button();
             this.move_btn = new System.Windows.Forms.Button();
             this.razarh_btn = new System.Windows.Forms.Button();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.label_sign_up = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -127,7 +129,9 @@ namespace FileManagerProject
             this.toolStripSeparator4,
             this.toolStripLabel5,
             this.toolStripSeparator5,
-            this.toolStripLabel6});
+            this.toolStripLabel6,
+            this.toolStripSeparator6,
+            this.label_sign_up});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(884, 25);
@@ -201,8 +205,8 @@ namespace FileManagerProject
             this.toolStripLabel6.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripLabel6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.toolStripLabel6.Name = "toolStripLabel6";
-            this.toolStripLabel6.Size = new System.Drawing.Size(66, 22);
-            this.toolStripLabel6.Text = "Settings";
+            this.toolStripLabel6.Size = new System.Drawing.Size(87, 22);
+            this.toolStripLabel6.Text = "Настройки";
             this.toolStripLabel6.Click += new System.EventHandler(this.toolStripSettings_Click);
             // 
             // del_btn
@@ -292,6 +296,21 @@ namespace FileManagerProject
             this.razarh_btn.UseVisualStyleBackColor = true;
             this.razarh_btn.Click += new System.EventHandler(this.razarh_btn_Click);
             // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            // 
+            // label_sign_up
+            // 
+            this.label_sign_up.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.label_sign_up.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label_sign_up.Name = "label_sign_up";
+            this.label_sign_up.Size = new System.Drawing.Size(53, 22);
+            this.label_sign_up.Text = "Войти";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -349,6 +368,8 @@ namespace FileManagerProject
         private System.Windows.Forms.ToolStripLabel toolStripLabel5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripLabel toolStripLabel6;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripLabel label_sign_up;
     }
 }
 

@@ -817,7 +817,7 @@ namespace FileManagerProject
                 this.listBox1.Font = new Font(label1.Font.FontFamily, 14);
                 foreach (Button elem in service_buttons)
                     elem.Font = new Font(label1.Font.FontFamily, 16);
-                this.comboBox1.Font = new Font(label1.Font.FontFamily, 16);
+                this.comboBox1.Font = new Font(label1.Font.FontFamily, 16, FontStyle.Bold);
                 this.lbl_curdir.Font = new Font(label1.Font.FontFamily, 16);
             } else if (set_win.settings.track_bar_value > 7)
             {
@@ -826,7 +826,7 @@ namespace FileManagerProject
                 this.listBox1.Font = new Font(label1.Font.FontFamily, 18);
                 foreach (Button elem in service_buttons)
                     elem.Font = new Font(label1.Font.FontFamily, 20);
-                this.comboBox1.Font = new Font(label1.Font.FontFamily, 20);
+                this.comboBox1.Font = new Font(label1.Font.FontFamily, 20, FontStyle.Bold);
                 this.lbl_curdir.Font = new Font(label1.Font.FontFamily, 20);
 
             } else
@@ -836,9 +836,9 @@ namespace FileManagerProject
                 this.listBox1.Font = new Font(label1.Font.FontFamily, 12);
                 foreach (Button elem in service_buttons)
                     elem.Font = new Font(label1.Font.FontFamily, 14);
-                this.comboBox1.Font = new Font(label1.Font.FontFamily, 14);
+                this.comboBox1.Font = new Font(label1.Font.FontFamily, 14, FontStyle.Bold);
                 this.lbl_curdir.Font = new Font(label1.Font.FontFamily, 14);
             }
-        }
+        }  // изменение шрифта
     }
 }
