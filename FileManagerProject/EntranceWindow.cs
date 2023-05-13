@@ -44,11 +44,26 @@ namespace FileManagerProject
             }
             MessageBox.Show($"Добро пожаловать {login}");
             information.user_now = login;
+            information.status_id = 1;
         }  // вход пользователя в уже созданный аккаунт после ввода пароля
 
         private void registr_btn_Click(object sender, EventArgs e)
         {
+            string login = textBox1.Text;
+            string password = textBox2.Text;
+            string res = information.AppendNewUser(login, password);
+            MessageBox.Show(res);
+            if (res == $"Новый пользователь с логином {login} добавлен")
+            {
+                textBox1.Text = "";
+                textBox2.Text = "";
+                InitForm();
+            }
+        }
 
+        private void EntranceWindow_Load(object sender, EventArgs e)
+        {
+            InitForm();
         }
     }
 }

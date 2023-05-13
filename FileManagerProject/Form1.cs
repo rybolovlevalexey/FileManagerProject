@@ -176,10 +176,20 @@ namespace FileManagerProject
             }
         }  // обработка нажатий клавиш на listBox
 
-        private void label1_Click(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)  // лейбл имя - копирует путь вместе с выбранным элементом
         {
-
-        } 
+            string text = "";
+            if (textBox1.Text == "")
+                text = comboBox1.SelectedItem + lbl_curdir.Text;
+            else
+                text = comboBox1.SelectedItem + lbl_curdir.Text + @"\" + textBox1.Text;
+            Clipboard.SetText(text);
+        }
+        private void lbl_curdir_MouseClick(object sender, MouseEventArgs e)  // лейбл с текущей директорией - копирует только её
+        {
+            string text = comboBox1.SelectedItem + lbl_curdir.Text;
+            Clipboard.SetText(text);
+        }
         private void GoBackDirectory()  // метод возврата назад по директории
         {
             if (current_path.Count > 1)
@@ -844,6 +854,11 @@ namespace FileManagerProject
         private void label_sign_up_Click(object sender, EventArgs e)  // нажата кнопка регистрации пользователя
         {
             entr_win.ShowDialog();
+            if (entr_win.information.status_id == 1)
+            {
+                label_sign_up.Text = entr_win.information.user_now;
+                label_sign_up.Font = new Font(label_sign_up.Font.FontFamily, label_sign_up.Font.Size + 2, FontStyle.Bold);
+            }
         }
     }
 }

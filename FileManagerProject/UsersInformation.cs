@@ -78,12 +78,17 @@ namespace FileManagerProject
                 result = "В логине используется запрещённое слово";
                 return result;
             }
+            if (login.Length == 0)
+            {
+                result = "Логин не может быть пустым";
+                return result;
+            }
             if (users.ContainsKey(login))
             {
                 result = "Пользователь с таким логином уже существует";
                 return result;
             }
-            result = "Новый пользователь добавлен";
+            result = $"Новый пользователь с логином {login} добавлен";
             users[login] = new List<string>();
             users[login].Add(EncryptDecrypt(password));
             return result;

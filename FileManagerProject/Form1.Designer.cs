@@ -115,6 +115,7 @@ namespace FileManagerProject
             this.lbl_curdir.Name = "lbl_curdir";
             this.lbl_curdir.Size = new System.Drawing.Size(0, 30);
             this.lbl_curdir.TabIndex = 4;
+            this.lbl_curdir.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lbl_curdir_MouseClick);
             // 
             // toolStrip1
             // 
