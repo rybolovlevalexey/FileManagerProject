@@ -844,7 +844,6 @@ namespace FileManagerProject
         private void label_sign_up_Click(object sender, EventArgs e)  // нажата кнопка регистрации пользователя
         {
             entr_win.ShowDialog();
-
         }
     }
 }

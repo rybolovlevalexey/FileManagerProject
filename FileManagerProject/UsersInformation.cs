@@ -4,10 +4,11 @@ using System.Text;
 
 namespace FileManagerProject
 {
-    class UsersInformation
+    public class UsersInformation
     {
         private Dictionary<string, List<string>> users = new Dictionary<string, List<string>>(); // логин - пароль, ...
-        private int status_id; // -1 общий режим, с 1 и далее id пользователя
+        public int status_id; // -1 общий режим, с 1 кто-то подключен
+        public string user_now = ""; // подключённый пользователь
 
         public UsersInformation()
         {
@@ -83,40 +84,30 @@ namespace FileManagerProject
                 return result;
             }
             result = "Новый пользователь добавлен";
+            users[login] = new List<string>();
+            users[login].Add(EncryptDecrypt(password));
             return result;
         }
         // a-97, z-122, A-65,Z-90
-        private string Encrypt(string st)  // шифрование
+        private string EncryptDecrypt(string st)  // шифрование и дешифрование
         {
-            string result = "";
-            foreach (char elem in st)
-            {
-                if ("1234567890".Contains(elem))
-                    result += elem;
-                else if ("qwertyuiopasdfghjklzxcvbnm".Contains(elem))
-                {
-                    int chr = Convert.ToInt32(Convert.ToByte(elem));
-
-                } else
-                {
-                    int chr = Convert.ToInt32(Convert.ToByte(elem));
-
-                }
-            }
-
-            var arr = result.ToCharArray();
-            Array.Reverse(arr);
-            result = new string(arr);
-            return result;
-        }
-        private string Decrypt(string st)  // дешифрование
-        {
-            string result = "";
             var arr = st.ToCharArray();
             Array.Reverse(arr);
-            st = new string(arr);
-            
+            string result = new string(arr);
             return result;
+        }
+        public List<string> GetUsersLogin()
+        {
+            List<string> result = new List<string>();
+            foreach (string elem in users.Keys)
+                result.Add(elem);
+            return result;
+        }
+        public bool IsCorrectPasswordForUser(string login, string password)
+        {
+            if (users[login][0] == EncryptDecrypt(password))
+                return true;
+            return false;
         }
     }
 }
