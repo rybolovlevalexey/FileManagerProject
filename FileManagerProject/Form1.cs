@@ -20,6 +20,7 @@ namespace FileManagerProject
         List<ToolStripLabel> strip_labels = new List<ToolStripLabel>(); // список с лейблами в шапке
         ToolTip tool = new ToolTip();  // tool для лейблов в шапке
         SettingsWindow set_win = new SettingsWindow();  // создание окна с настройками
+        EntranceWindow entr_win = new EntranceWindow(); // окно для входа или регистрации
 
         public Form1()
         {
@@ -736,7 +737,6 @@ namespace FileManagerProject
         private void toolStripSettings_Click(object sender, EventArgs e)
         {
             set_win.ShowDialog();
-            // set_win.track_bar_value.ToString() - значение от 0 до 10, размеры шрифта
             this.CheckAndColorForm();
             this.CheckAndChangeTextSize();
         }
@@ -840,5 +840,11 @@ namespace FileManagerProject
                 this.lbl_curdir.Font = new Font(label1.Font.FontFamily, 14);
             }
         }  // изменение шрифта
+
+        private void label_sign_up_Click(object sender, EventArgs e)  // нажата кнопка регистрации пользователя
+        {
+            entr_win.ShowDialog();
+
+        }
     }
 }

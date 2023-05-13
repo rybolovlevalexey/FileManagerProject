@@ -85,5 +85,38 @@ namespace FileManagerProject
             result = "Новый пользователь добавлен";
             return result;
         }
+        // a-97, z-122, A-65,Z-90
+        private string Encrypt(string st)  // шифрование
+        {
+            string result = "";
+            foreach (char elem in st)
+            {
+                if ("1234567890".Contains(elem))
+                    result += elem;
+                else if ("qwertyuiopasdfghjklzxcvbnm".Contains(elem))
+                {
+                    int chr = Convert.ToInt32(Convert.ToByte(elem));
+
+                } else
+                {
+                    int chr = Convert.ToInt32(Convert.ToByte(elem));
+
+                }
+            }
+
+            var arr = result.ToCharArray();
+            Array.Reverse(arr);
+            result = new string(arr);
+            return result;
+        }
+        private string Decrypt(string st)  // дешифрование
+        {
+            string result = "";
+            var arr = st.ToCharArray();
+            Array.Reverse(arr);
+            st = new string(arr);
+            
+            return result;
+        }
     }
 }
