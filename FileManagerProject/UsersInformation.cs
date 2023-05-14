@@ -8,6 +8,7 @@ namespace FileManagerProject
     public class UsersInformation
     {
         private Dictionary<string, List<string>> users = new Dictionary<string, List<string>>(); // логин - пароль, ...
+        public Dictionary<string, List<List<string>>> users_paths = new Dictionary<string, List<List<string>>>(); // логин - максимум три сохранённых пути
         public int status_id; // -1 общий режим, с 1 кто-то подключен
         public string user_now = ""; // подключённый пользователь
 
@@ -16,6 +17,19 @@ namespace FileManagerProject
             status_id = -1;
         }
 
+        public void CheckDictsToCorrectCount()
+        {
+            if (users_paths == null)
+                users_paths = new Dictionary<string, List<List<string>>>();
+            if (users.Count != users_paths.Count)
+            {
+                foreach (string login in users.Keys)
+                {
+                    if (!users_paths.ContainsKey(login))
+                        users_paths[login] = new List<List<string>>();
+                }
+            }
+        }
         public string AppendNewUser(string login, string password)  // пароль - только ангийские и цифры, длина от 4; логин - только ангийские и цифры
         {
             string result;
@@ -92,6 +106,8 @@ namespace FileManagerProject
             result = $"Новый пользователь с логином {login} добавлен";
             users[login] = new List<string>();
             users[login].Add(EncryptDecrypt(password));
+            
+            users_paths[login] = new List<List<string>>();
             return result;
         }
         // a-97, z-122, A-65,Z-90

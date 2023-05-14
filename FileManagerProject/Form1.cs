@@ -15,7 +15,7 @@ namespace FileManagerProject
     public partial class Form1 : Form
     {
         List<string> current_path = new List<string>();  // текущий путь
-        List<List<string>> saved_paths = new List<List<string>>();  // сохранённые пути - максимум 3
+        //List<List<string>> saved_paths = new List<List<string>>();  // сохранённые пути - максимум 3
         List<Button> service_buttons = new List<Button>();  // кнопки с действиями
         List<ToolStripLabel> strip_labels = new List<ToolStripLabel>(); // список с лейблами в шапке
         ToolTip tool = new ToolTip();  // tool для лейблов в шапке
@@ -728,18 +728,39 @@ namespace FileManagerProject
 
         private void izbr_btn_Click(object sender, EventArgs e)
         {
-            if (saved_paths.Count == 3)
+            entr_win.information.CheckDictsToCorrectCount();
+            if (label_sign_up.Text == "Войти")
+            {
+                MessageBox.Show("Войдите в свой аккаунт, чтобы сохранять директории");
+                return;
+            }
+            string login = label_sign_up.Text;
+            if (entr_win.information.users_paths[login].Count == 3)
             {
                 MessageBox.Show("Использовано максимально\nвозможное кол-во сохранений");
                 return;
             }
             if (textBox1.Text != "")
             {
+                List<string> izbr_current_path = new List<string>();
+                foreach (string elem in current_path)
+                    izbr_current_path.Add(elem);
 
-            } else
+                izbr_current_path.Add(textBox1.Text);
+                string path = string.Join(@"\", izbr_current_path);
+                if (current_path.Count == 1)
+                    path += @"\";
+                
+                if (!Directory.Exists(path))
+                    izbr_current_path.RemoveAt(izbr_current_path.Count - 1);
+                
+                entr_win.information.users_paths[login].Add(izbr_current_path);
+                strip_labels[entr_win.information.users_paths[login].Count - 1].Enabled = true;
+            } 
+            else
             {
-                saved_paths.Add(current_path);
-                strip_labels[saved_paths.Count - 1].Enabled = true;
+                entr_win.information.users_paths[login].Add(current_path);
+                strip_labels[entr_win.information.users_paths[login].Count - 1].Enabled = true;
                 //tool.SetToolTip(strip_labels[saved_paths.Count - 1], "");
             }
         }  // не работает
@@ -861,6 +882,11 @@ namespace FileManagerProject
                 label_sign_up.Text = entr_win.information.user_now;
                 label_sign_up.Font = new Font(label_sign_up.Font.FontFamily, label_sign_up.Font.Size + 2, FontStyle.Bold);
             }
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            MessageBox.Show(entr_win.information.users_paths["alex"][0].ToString());
         }
     }
 }

@@ -167,10 +167,10 @@ namespace FileManagerProject
             // 
             // toolStripLabel3
             // 
-            this.toolStripLabel3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.toolStripLabel3.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(40, 22);
-            this.toolStripLabel3.Text = "First";
+            this.toolStripLabel3.Size = new System.Drawing.Size(35, 22);
+            this.toolStripLabel3.Text = "№1";
             // 
             // toolStripSeparator3
             // 
@@ -179,10 +179,10 @@ namespace FileManagerProject
             // 
             // toolStripLabel4
             // 
-            this.toolStripLabel4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.toolStripLabel4.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.toolStripLabel4.Name = "toolStripLabel4";
-            this.toolStripLabel4.Size = new System.Drawing.Size(61, 22);
-            this.toolStripLabel4.Text = "Second";
+            this.toolStripLabel4.Size = new System.Drawing.Size(38, 22);
+            this.toolStripLabel4.Text = "№2";
             // 
             // toolStripSeparator4
             // 
@@ -191,10 +191,10 @@ namespace FileManagerProject
             // 
             // toolStripLabel5
             // 
-            this.toolStripLabel5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.toolStripLabel5.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.toolStripLabel5.Name = "toolStripLabel5";
-            this.toolStripLabel5.Size = new System.Drawing.Size(46, 22);
-            this.toolStripLabel5.Text = "Third";
+            this.toolStripLabel5.Size = new System.Drawing.Size(38, 22);
+            this.toolStripLabel5.Text = "№3";
             // 
             // toolStripSeparator5
             // 
@@ -334,6 +334,7 @@ namespace FileManagerProject
             this.Controls.Add(this.comboBox1);
             this.Name = "Form1";
             this.Text = "File Manager";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.toolStrip1.ResumeLayout(false);
