@@ -171,6 +171,7 @@ namespace FileManagerProject
             this.toolStripLabel3.Name = "toolStripLabel3";
             this.toolStripLabel3.Size = new System.Drawing.Size(35, 22);
             this.toolStripLabel3.Text = "№1";
+            this.toolStripLabel3.Click += new System.EventHandler(this.toolStripLabel3_Click);
             // 
             // toolStripSeparator3
             // 
@@ -183,6 +184,7 @@ namespace FileManagerProject
             this.toolStripLabel4.Name = "toolStripLabel4";
             this.toolStripLabel4.Size = new System.Drawing.Size(38, 22);
             this.toolStripLabel4.Text = "№2";
+            this.toolStripLabel4.Click += new System.EventHandler(this.toolStripLabel4_Click);
             // 
             // toolStripSeparator4
             // 
@@ -195,6 +197,7 @@ namespace FileManagerProject
             this.toolStripLabel5.Name = "toolStripLabel5";
             this.toolStripLabel5.Size = new System.Drawing.Size(38, 22);
             this.toolStripLabel5.Text = "№3";
+            this.toolStripLabel5.Click += new System.EventHandler(this.toolStripLabel5_Click);
             // 
             // toolStripSeparator5
             // 

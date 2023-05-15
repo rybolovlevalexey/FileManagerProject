@@ -24,6 +24,9 @@ namespace FileManagerProject
             {
             }
             InitForm();
+            
+            //information.ClearUsers();
+            
         }
 
         private void InitForm()
@@ -79,7 +82,7 @@ namespace FileManagerProject
             BinaryFormatter formatter = new BinaryFormatter();
             information = (UsersInformation)formatter.Deserialize(stream);
         }
-        public void SerializeFromSetWin()
+        public void SerializeFromEntWin()
         {
             BinaryFormatter formatter = new BinaryFormatter();
             using (FileStream fs = new FileStream("users.dat", FileMode.Create))
@@ -91,7 +94,7 @@ namespace FileManagerProject
 
         private void EntranceWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.SerializeFromSetWin();
+            this.SerializeFromEntWin();
         }
     }
 }

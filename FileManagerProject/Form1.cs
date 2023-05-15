@@ -265,9 +265,20 @@ namespace FileManagerProject
         }
         private void GoFrontDirectory(string next_dir)
         {
-            current_path.Add(next_dir);
-
+            string login = label_sign_up.Text;
+            string st = @$"C:\FileManagerUsers";  // \PersonalDir{login}
             string path = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path += @"\";
+            if (st == path && next_dir.StartsWith($@"PersonalDir") && next_dir != $@"PersonalDir{login}")
+            {
+                MessageBox.Show("У вас нет прав доступа в данную директорию");
+                return;
+            }
+            
+
+            current_path.Add(next_dir);
+            path = string.Join(@"\", current_path);
             try
             {
                 string[] output_dirs = Directory.GetDirectories(path);
@@ -763,7 +774,7 @@ namespace FileManagerProject
                 strip_labels[entr_win.information.users_paths[login].Count - 1].Enabled = true;
                 //tool.SetToolTip(strip_labels[saved_paths.Count - 1], "");
             }
-        }  // не работает
+        }  // добавление избранных путей пользователю
 
         private void toolStripSettings_Click(object sender, EventArgs e)
         {
@@ -886,7 +897,20 @@ namespace FileManagerProject
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            MessageBox.Show(entr_win.information.users_paths["alex"][0].ToString());
+
+        }
+        private void toolStripLabel3_Click(object sender, EventArgs e)  // избранное №1
+        {
+            //string login = 
+            //current_path = entr_win.information.users_paths
+        }
+        private void toolStripLabel4_Click(object sender, EventArgs e)  // избранное №2
+        {
+
+        }
+        private void toolStripLabel5_Click(object sender, EventArgs e)  // избранное №3
+        {
+
         }
     }
 }

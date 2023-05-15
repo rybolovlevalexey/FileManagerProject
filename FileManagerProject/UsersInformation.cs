@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace FileManagerProject
 {
@@ -17,6 +18,13 @@ namespace FileManagerProject
             status_id = -1;
         }
 
+        public void ClearUsers()
+        {
+            users.Clear();
+            users_paths.Clear();
+            user_now = "";
+            status_id = -1;
+        }
         public void CheckDictsToCorrectCount()
         {
             if (users_paths == null)
@@ -108,6 +116,10 @@ namespace FileManagerProject
             users[login].Add(EncryptDecrypt(password));
             
             users_paths[login] = new List<List<string>>();
+
+            string path = @$"C:\FileManagerUsers\PersonalDir{login}";
+            Directory.CreateDirectory(path);
+            
             return result;
         }
         // a-97, z-122, A-65,Z-90
