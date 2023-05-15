@@ -372,7 +372,17 @@ namespace FileManagerProject
                 MessageBox.Show("Новое имя не может быть пустым");
                 return;
             }
-            
+            string login = label_sign_up.Text;
+            string st = @$"C:\FileManagerUsers";  // \PersonalDir{login}
+            string path1 = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path1 += @"\";
+            if (st == path1 && old_value.StartsWith($@"PersonalDir"))
+            {
+                MessageBox.Show("У вас нет прав доступа в данную директорию");
+                return;
+            }
+
             string path = string.Join(@"\", current_path);
             if (current_path.Count == 1)
                 path += @"\";
@@ -458,6 +468,17 @@ namespace FileManagerProject
                     MessageBox.Show("Для удаления выберите элемент");
                     return;
                 }
+                string login = label_sign_up.Text;
+                string st = @$"C:\FileManagerUsers";  // \PersonalDir{login}
+                string path1 = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    path1 += @"\";
+                if (st == path1 && value.StartsWith($@"PersonalDir"))
+                {
+                    MessageBox.Show("У вас нет прав доступа в данную директорию");
+                    return;
+                }
+
                 DialogResult result = MessageBox.Show("Вы точно хотите удалить выбранный элемент?", "Подтверждение", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (result == DialogResult.Yes)
                 {
@@ -497,6 +518,17 @@ namespace FileManagerProject
                     MessageBox.Show("Выберите элемент,\nкоторый необходимо скопировать");
                     return;
                 }
+                string login = label_sign_up.Text;
+                string st = @$"C:\FileManagerUsers";  // \PersonalDir{login}
+                string path1 = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    path1 += @"\";
+                if (st == path1 && value.StartsWith($@"PersonalDir"))
+                {
+                    MessageBox.Show("У вас нет прав доступа в данную директорию");
+                    return;
+                }
+
                 // путь который надо копировать
                 string copy_path = string.Join(@"\", current_path);
                 if (current_path.Count == 1)
@@ -592,6 +624,17 @@ namespace FileManagerProject
                     MessageBox.Show("Для перемещения выберите элемент");
                     return;
                 }
+                string login = label_sign_up.Text;
+                string st = @$"C:\FileManagerUsers";  // \PersonalDir{login}
+                string path1 = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    path1 += @"\";
+                if (st == path1 && value.StartsWith($@"PersonalDir"))
+                {
+                    MessageBox.Show("У вас нет прав доступа в данную директорию");
+                    return;
+                }
+
                 // путь который надо переместить
                 string copy_path = string.Join(@"\", current_path);
                 if (current_path.Count == 1)
@@ -653,6 +696,7 @@ namespace FileManagerProject
         {
             try
             {
+
                 string path = string.Join(@"\", current_path);
                 if (current_path.Count == 1)
                     path += @"\";
@@ -661,6 +705,17 @@ namespace FileManagerProject
                     MessageBox.Show("Выберите элемент который\nнеобходимо архивировать");
                     return;
                 }
+                string login = label_sign_up.Text;
+                string st = @$"C:\FileManagerUsers";  // \PersonalDir{login}
+                string path1 = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    path1 += @"\";
+                if (st == path1 && textBox1.Text.StartsWith($@"PersonalDir"))
+                {
+                    MessageBox.Show("У вас нет прав доступа в данную директорию");
+                    return;
+                }
+
                 path += @"\" + textBox1.Text;
                 if (Directory.Exists(path))
                 {
