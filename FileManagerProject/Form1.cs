@@ -21,6 +21,7 @@ namespace FileManagerProject
         ToolTip tool = new ToolTip();  // tool для лейблов в шапке
         SettingsWindow set_win = new SettingsWindow();  // создание окна с настройками
         EntranceWindow entr_win = new EntranceWindow(); // окно для входа или регистрации
+        AmazonWindow amazon_win = new AmazonWindow();  // "фича"-амазон
 
         public Form1()
         {
@@ -966,6 +967,11 @@ namespace FileManagerProject
         private void toolStripLabel5_Click(object sender, EventArgs e)  // избранное №3
         {
 
+        }
+
+        private void amazon_btn_Click(object sender, EventArgs e)
+        {
+            amazon_win.ShowDialog();
         }
     }
 }

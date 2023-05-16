@@ -60,6 +60,8 @@ namespace FileManagerProject
             this.make_btn = new System.Windows.Forms.Button();
             this.move_btn = new System.Windows.Forms.Button();
             this.razarh_btn = new System.Windows.Forms.Button();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.amazon_btn = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -132,7 +134,9 @@ namespace FileManagerProject
             this.toolStripSeparator5,
             this.toolStripLabel6,
             this.toolStripSeparator6,
-            this.label_sign_up});
+            this.label_sign_up,
+            this.toolStripSeparator7,
+            this.amazon_btn});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(884, 25);
@@ -316,6 +320,21 @@ namespace FileManagerProject
             this.razarh_btn.UseVisualStyleBackColor = true;
             this.razarh_btn.Click += new System.EventHandler(this.razarh_btn_Click);
             // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
+            // 
+            // amazon_btn
+            // 
+            this.amazon_btn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.amazon_btn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.amazon_btn.Name = "amazon_btn";
+            this.amazon_btn.Size = new System.Drawing.Size(67, 22);
+            this.amazon_btn.Text = "Amazon";
+            this.amazon_btn.Click += new System.EventHandler(this.amazon_btn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -376,6 +395,8 @@ namespace FileManagerProject
         private System.Windows.Forms.ToolStripLabel toolStripLabel6;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripLabel label_sign_up;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripLabel amazon_btn;
     }
 }
 
