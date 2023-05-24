@@ -51,7 +51,6 @@ namespace FileManagerProject
             tool1.SetToolTip(this.rename_btn, "Rename");
             tool1.SetToolTip(this.arh_btn, "Archive");
             tool1.SetToolTip(this.razarh_btn, "Unzip");
-            tool1.SetToolTip(this.izbr_btn, "Add to favourites");
             tool1.SetToolTip(this.make_btn, "Make");
 
             this.toolStripLabel3.Enabled = false;
@@ -68,10 +67,17 @@ namespace FileManagerProject
             service_buttons.Add(this.rename_btn);
             service_buttons.Add(this.copy_btn);
             service_buttons.Add(this.arh_btn);
-            service_buttons.Add(this.izbr_btn);
             service_buttons.Add(this.move_btn);
             service_buttons.Add(this.make_btn);
             service_buttons.Add(this.razarh_btn);
+
+            toolStripLabel3.Visible = false;
+            toolStripLabel4.Visible = false;
+            toolStripLabel5.Visible = false;
+            toolStripSeparator3.Visible = false;
+            toolStripSeparator4.Visible = false;
+            toolStripSeparator5.Visible = false;
+            
         }
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -947,7 +953,7 @@ namespace FileManagerProject
             if (entr_win.information.status_id == 1)
             {
                 label_sign_up.Text = entr_win.information.user_now;
-                label_sign_up.Font = new Font(label_sign_up.Font.FontFamily, label_sign_up.Font.Size + 2, FontStyle.Bold);
+                label_sign_up.Font = new Font(label_sign_up.Font.FontFamily, label_sign_up.Font.Size, FontStyle.Bold);
             }
         }
 
@@ -972,6 +978,33 @@ namespace FileManagerProject
         private void amazon_btn_Click(object sender, EventArgs e)
         {
             amazon_win.ShowDialog();
+        }
+
+        private void make_btn_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedIndex != -1)
+            {
+                MessageBox.Show("Нельзя создавать новую папку с выбранным элементом");
+                return;
+            }
+            if (textBox1.Text == "")
+            {
+                MessageBox.Show("Введите название новой папки");
+                return;
+            }
+            try
+            {
+                string path = string.Join(@"\", current_path);
+                if (current_path.Count == 1)
+                    path += @"\";
+                path += @"\" + textBox1.Text;
+                Directory.CreateDirectory(path);
+            } catch (Exception) { MessageBox.Show("Недопустимое назввание директории"); }
+            listBox1.Items.Clear();
+            string path1 = string.Join(@"\", current_path);
+            if (current_path.Count == 1)
+                path1 += @"\";
+            listBox1.Items.AddRange(MakeOutputDirs(path1).ToArray());
         }
     }
 }

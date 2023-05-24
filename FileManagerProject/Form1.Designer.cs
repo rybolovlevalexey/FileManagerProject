@@ -52,16 +52,15 @@ namespace FileManagerProject
             this.toolStripLabel6 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.label_sign_up = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.amazon_btn = new System.Windows.Forms.ToolStripLabel();
             this.del_btn = new System.Windows.Forms.Button();
             this.rename_btn = new System.Windows.Forms.Button();
             this.copy_btn = new System.Windows.Forms.Button();
             this.arh_btn = new System.Windows.Forms.Button();
-            this.izbr_btn = new System.Windows.Forms.Button();
             this.make_btn = new System.Windows.Forms.Button();
             this.move_btn = new System.Windows.Forms.Button();
             this.razarh_btn = new System.Windows.Forms.Button();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
-            this.amazon_btn = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -233,6 +232,21 @@ namespace FileManagerProject
             this.label_sign_up.Text = "Войти";
             this.label_sign_up.Click += new System.EventHandler(this.label_sign_up_Click);
             // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
+            // 
+            // amazon_btn
+            // 
+            this.amazon_btn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.amazon_btn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.amazon_btn.Name = "amazon_btn";
+            this.amazon_btn.Size = new System.Drawing.Size(67, 22);
+            this.amazon_btn.Text = "Amazon";
+            this.amazon_btn.Click += new System.EventHandler(this.amazon_btn_Click);
+            // 
             // del_btn
             // 
             this.del_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -277,26 +291,16 @@ namespace FileManagerProject
             this.arh_btn.UseVisualStyleBackColor = true;
             this.arh_btn.Click += new System.EventHandler(this.arh_btn_Click);
             // 
-            // izbr_btn
-            // 
-            this.izbr_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.izbr_btn.Location = new System.Drawing.Point(547, 455);
-            this.izbr_btn.Name = "izbr_btn";
-            this.izbr_btn.Size = new System.Drawing.Size(325, 44);
-            this.izbr_btn.TabIndex = 10;
-            this.izbr_btn.Text = "Добавить в избранное";
-            this.izbr_btn.UseVisualStyleBackColor = true;
-            this.izbr_btn.Click += new System.EventHandler(this.izbr_btn_Click);
-            // 
             // make_btn
             // 
             this.make_btn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.make_btn.Location = new System.Drawing.Point(548, 505);
+            this.make_btn.Location = new System.Drawing.Point(547, 455);
             this.make_btn.Name = "make_btn";
             this.make_btn.Size = new System.Drawing.Size(325, 44);
             this.make_btn.TabIndex = 11;
             this.make_btn.Text = "Создать";
             this.make_btn.UseVisualStyleBackColor = true;
+            this.make_btn.Click += new System.EventHandler(this.make_btn_Click);
             // 
             // move_btn
             // 
@@ -320,21 +324,6 @@ namespace FileManagerProject
             this.razarh_btn.UseVisualStyleBackColor = true;
             this.razarh_btn.Click += new System.EventHandler(this.razarh_btn_Click);
             // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
-            // 
-            // amazon_btn
-            // 
-            this.amazon_btn.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.amazon_btn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.amazon_btn.Name = "amazon_btn";
-            this.amazon_btn.Size = new System.Drawing.Size(67, 22);
-            this.amazon_btn.Text = "Amazon";
-            this.amazon_btn.Click += new System.EventHandler(this.amazon_btn_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -343,7 +332,6 @@ namespace FileManagerProject
             this.Controls.Add(this.razarh_btn);
             this.Controls.Add(this.move_btn);
             this.Controls.Add(this.make_btn);
-            this.Controls.Add(this.izbr_btn);
             this.Controls.Add(this.arh_btn);
             this.Controls.Add(this.copy_btn);
             this.Controls.Add(this.rename_btn);
@@ -382,7 +370,6 @@ namespace FileManagerProject
         private System.Windows.Forms.Button rename_btn;
         private System.Windows.Forms.Button copy_btn;
         private System.Windows.Forms.Button arh_btn;
-        private System.Windows.Forms.Button izbr_btn;
         private System.Windows.Forms.Button make_btn;
         private System.Windows.Forms.Button move_btn;
         private System.Windows.Forms.Button razarh_btn;

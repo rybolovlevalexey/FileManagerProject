@@ -20,7 +20,7 @@ namespace FileManagerProject
             {
                 this.DeserializeForEntWin();
             }
-            catch (FileNotFoundException)
+            catch (Exception)
             {
             }
             InitForm();
@@ -31,6 +31,8 @@ namespace FileManagerProject
 
         private void InitForm()
         {
+            information.user_now = "";
+            information.status_id = -1;
             this.comboBox1.Items.Clear();
             this.comboBox1.Items.AddRange(information.GetUsersLogin().ToArray());
         }
@@ -48,8 +50,12 @@ namespace FileManagerProject
             }
             string login = comboBox1.SelectedItem.ToString();
             string password = textBox2.Text;
+            information.status_id = -1;
+            information.user_now = "";
             if (!information.IsCorrectPasswordForUser(login, password))
             {
+                information.user_now = "";
+                information.status_id = -1;
                 MessageBox.Show("Для указанного логина введён неверный пароль");
                 return;
             }
@@ -77,17 +83,17 @@ namespace FileManagerProject
         
         public void DeserializeForEntWin()
         {
-            byte[] bytes = File.ReadAllBytes("users.dat");
-            MemoryStream stream = new MemoryStream(bytes);
             BinaryFormatter formatter = new BinaryFormatter();
-            information = (UsersInformation)formatter.Deserialize(stream);
+            using (FileStream fs = new FileStream("users.dat", FileMode.OpenOrCreate))
+            {
+                information = (UsersInformation)formatter.Deserialize(fs);
+            }
         }
         public void SerializeFromEntWin()
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream("users.dat", FileMode.Create))
+            using (FileStream fs = new FileStream("users.dat", FileMode.OpenOrCreate))
             {
-                // Сериализуем объект в поток
                 formatter.Serialize(fs, information);
             }
         }

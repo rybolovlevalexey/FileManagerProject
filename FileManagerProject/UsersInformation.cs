@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Runtime.Serialization;
 
 namespace FileManagerProject
 {
@@ -113,7 +114,7 @@ namespace FileManagerProject
             }
             result = $"Новый пользователь с логином {login} добавлен";
             users[login] = new List<string>();
-            users[login].Add(EncryptDecrypt(password));
+            users[login].Add(password);
             
             users_paths[login] = new List<List<string>>();
 
@@ -122,13 +123,30 @@ namespace FileManagerProject
             
             return result;
         }
-        // a-97, z-122, A-65,Z-90
-        private string EncryptDecrypt(string st)  // шифрование и дешифрование
+
+        [OnSerializing()]
+        private void Encrypt(StreamingContext context)  // шифрование и дешифрование
         {
-            var arr = st.ToCharArray();
-            Array.Reverse(arr);
-            string result = new string(arr);
-            return result;
+            foreach (string key in users.Keys)
+            {
+                string st = users[key][0];
+                var arr = st.ToCharArray();
+                Array.Reverse(arr);
+                string result = new string(arr);
+                users[key][0] = result;
+            }
+        }
+        [OnDeserialized()]
+        private void Decrypt(StreamingContext context)
+        {
+            foreach (string key in users.Keys)
+            {
+                string st = users[key][0];
+                var arr = st.ToCharArray();
+                Array.Reverse(arr);
+                string result = new string(arr);
+                users[key][0] = result;
+            }
         }
         public List<string> GetUsersLogin()
         {
@@ -139,7 +157,7 @@ namespace FileManagerProject
         }
         public bool IsCorrectPasswordForUser(string login, string password)
         {
-            if (users[login][0] == EncryptDecrypt(password))
+            if (users[login][0] == password)
                 return true;
             return false;
         }
