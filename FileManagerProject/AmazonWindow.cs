@@ -7,6 +7,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Net.Http;
 using HtmlAgilityPack;
+using System.Net;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace FileManagerProject
 {
@@ -17,6 +20,10 @@ namespace FileManagerProject
         // ".//div[@class='a-section']//div[@class='sg-row']//div[@class='sg-col sg-col-4-of-12 sg-col-8-of-16 sg-col-12-of-20 sg-col-12-of-24 s-list-col-right']"
         
         string base_url = "https://www.amazon.com/s?k=python&i=stripbooks-intl-ship&ref=nb_sb_noss";
+        List<List<string>> current_result = new List<List<string>>();
+
+        WebClient client = new WebClient();
+        List<string> my_URL_books = new List<string>();
         public AmazonWindow()
         {
             InitializeComponent();
@@ -25,6 +32,12 @@ namespace FileManagerProject
         private void InitForm()
         {
             listView1.Scrollable = true;
+            listView1.FullRowSelect = true;
+
+            client.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0");
+            client.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
+            client.Headers.Add("Accept-Encoding", "br");
+            client.Headers.Add("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3");
 
             // создание переключателя для выбора кол-ва книжек
             List<int> items_updown = new List<int>();
@@ -49,66 +62,37 @@ namespace FileManagerProject
             comboBox1.SelectedIndex = 0;
 
             // создание таблицы с шапкой в list view
+
+            listView1.ColumnClick += listView1_ColumnClick;
+            listView1.Columns.Add("Номер", 10);
+            listView1.Columns.Add("Название", 250);
+            listView1.Columns.Add("Автор", 150);
+            listView1.Columns.Add("Рэйтинг", 100);
+            listView1.Columns.Add("Цена", 100);
+            listView1.Columns.Add("Дата", 100);
         }
         private void search_btn_Click(object sender, EventArgs e)
         {
-            this.Parsing(base_url);
             int item_count = Convert.ToInt32(domainUpDown1.SelectedItem);
             string program_language = comboBox1.SelectedItem.ToString();
-
+            this.TryDownload(program_language, item_count);
         }
-
-        private void CreateListView()
-        {
-
-            DisplaysBooks.ColumnClick += listView1_ColumnClick;
-
-            DisplaysBooks.Columns.Add(columnNumber);
-            DisplaysBooks.Columns.Add(columnTittle);
-            DisplaysBooks.Columns.Add(columnAuthor);
-            DisplaysBooks.Columns.Add(columnRating);
-            DisplaysBooks.Columns.Add(columnCost);
-            DisplaysBooks.Columns.Add(columnDate);
-
-            //подписали на событие открытия в браузере
-            DisplaysBooks.ItemActivate += DisplaysBooks_SelectedIndexChanged;
-
-            //при нажатии будет выделяться полностью
-            DisplaysBooks.FullRowSelect = true;
-
-            Controls.Add(DisplaysBooks);
-
-        }
-
 
         private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
         {
-            DisplaysBooks.ListViewItemSorter = new ListViewColumnComparer(e.Column);
-        }
 
-        List<string> my_URL_books = new List<string>();
-        //Пытаюсь скачать HTML страницу Амазона 
-        WebClient client = new WebClient();
-        private void TryDownload(string req, int count)
+        }
+        private void TryDownload(string language, int count)
         {
             List<string> listformyline = new List<string>();
-            DisplaysBooks.Items.Clear();
+            listView1.Items.Clear();
             my_URL_books.Clear();
 
 
-            string filepath = @"C:\Users\Пользователь\Desktop\mysite.txt";
+            string filepath = @"C:\C# Projects from VS\Amazon.txt";
             File.WriteAllText(filepath, string.Empty);
-            string address = "https://www.amazon.com/s?k=" + req + "&i=stripbooks-intl-ship&ref=nb_sb_noss";
-
-
-
-            //для стабильной работы с амазоном 
-            client.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0");
-            client.Headers.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8");
-            client.Headers.Add("Accept-Encoding", "br");
-            client.Headers.Add("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3");
-
-
+            string address = @$"https://www.amazon.com/s?k={language}&i=stripbooks-intl-ship&ref=nb_sb_noss";
+            MessageBox.Show(address);
             int page = 1;
             int current_count = 0;
             string reply = "";
@@ -120,7 +104,7 @@ namespace FileManagerProject
                 client.DownloadFile(address, filepath);
                 string[] HTMLine = File.ReadAllLines(filepath, Encoding.Default);
 
-                StreamWriter sw = new StreamWriter(@"C: \Users\Пользователь\Desktop\lll.txt");
+                StreamWriter sw = new StreamWriter(@"C:\C# Projects from VS\Amazon1.txt");
                 foreach (string s in HTMLine)
                 {
                     if (s.Contains("data-component-type=\"s-search-result\""))
@@ -129,20 +113,16 @@ namespace FileManagerProject
                         sw.WriteLine(s);
                     }
                 }
-                //MessageBox.Show($"{listformyline.Count}");
                 sw.Close();
 
                 reply = client.DownloadString(address);
-
-                //добавляю новую строку
                 foreach (string match in listformyline)
                 {
-                    string this_author = "unknow";
-                    string this_date = "unknow";
-                    string this_mark = "unknow";
-                    string this_cost = "unknow";
+                    string this_author = "Неизвестно";
+                    string this_date = "Неизвестно";
+                    string this_mark = "Неизвестно";
+                    string this_cost = "Неизвестно";
 
-                    //find URL
                     Regex r = new Regex("<a class=\"a-link-normal s-no-outline\" href=\"([^>]+)\"");
                     MatchCollection m = r.Matches(match);
                     string t = "https://www.amazon.com" + m[0].Groups[1].ToString();
@@ -190,14 +170,22 @@ namespace FileManagerProject
                     if (current_count < count)
                     {
                         current_count += 1;
+                        List<string> line = new List<string>();
+                        line.Add(current_count.ToString());
+                        line.Add(matches_name[0].Groups[1].ToString());
+                        line.Add(this_author);
+                        line.Add(this_mark);
+                        line.Add(this_cost);
+                        line.Add(this_date);
                         ListViewItem new_line = new ListViewItem(new string[] {
-                            $"{current_count}",
+                            current_count.ToString(),
                             matches_name[0].Groups[1].ToString(),
                             this_author,
                             this_mark,
                             this_cost,
                             this_date });
-                        DisplaysBooks.Items.Add(new_line);
+                        listView1.Items.Add(new_line);
+                        current_result.Add(line);
                     }
                 }
                 if (current_count < count)
@@ -208,45 +196,6 @@ namespace FileManagerProject
                     address = "https://www.amazon.com" + matches_page[0].Groups[1];
                 }
             }
-        }
-        private void Parsing(string url)
-        {
-            try
-            {
-                HttpClientHandler hdl = new HttpClientHandler { AllowAutoRedirect = false };
-                HttpClient client = new HttpClient(hdl);
-                Dictionary<string, string> headers = new Dictionary<string, string>();
-                headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36";
-                headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-                headers["Accept-Language"] = "ru-ru,ru;q=0.8,en-us;q=0.5,en;q=0.3";
-                headers["Accept-Encoding"] = "br";
-                foreach (string key in headers.Keys)
-                    client.DefaultRequestHeaders.Add(key, headers[key]);
-
-                var responce = client.GetAsync(url).Result;
-                //MessageBox.Show(responce.StatusCode.ToString());
-                if (responce.IsSuccessStatusCode)
-                {
-                    var html = responce.Content.ReadAsStringAsync().Result;
-                    if (!string.IsNullOrEmpty(html))
-                    {
-                        HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-                        doc.LoadHtml(html);
-                        MessageBox.Show(doc.Text);
-                        var tables = doc.DocumentNode.SelectNodes("//*/div[@class='sg-col-inner']");
-                        MessageBox.Show(tables.Count.ToString());
-                        if (tables != null && tables.Count > 0)
-                        {
-                            Dictionary<string, List<string>> books_info = new Dictionary<string, List<string>>();
-                            MessageBox.Show(tables.Count.ToString());
-                        }
-                        else
-                        {
-                            MessageBox.Show("No information parsed");
-                        }
-                    }
-                }
-            } catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
     }
 }

@@ -44,6 +44,8 @@ namespace FileManagerProject
         }
         private void InitForm()
         {
+            toolStripLabel7.Visible = false;
+
             ToolTip tool1 = new ToolTip();
             tool1.SetToolTip(this.del_btn, "Delete");
             tool1.SetToolTip(this.copy_btn, "Copy");
@@ -1005,6 +1007,12 @@ namespace FileManagerProject
             if (current_path.Count == 1)
                 path1 += @"\";
             listBox1.Items.AddRange(MakeOutputDirs(path1).ToArray());
+        }
+
+        private void toolStripLabel7_Click(object sender, EventArgs e)
+        {
+            var win = new ListViewWindow();
+            win.ShowDialog();
         }
     }
 }

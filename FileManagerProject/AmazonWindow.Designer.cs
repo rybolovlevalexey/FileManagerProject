@@ -35,14 +35,21 @@ namespace FileManagerProject
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.domainUpDown1 = new System.Windows.Forms.DomainUpDown();
+            this.NumberColumn = new System.Windows.Forms.ColumnHeader();
+            this.NameColumn = new System.Windows.Forms.ColumnHeader();
+            this.AuthorColumn = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
             // listView1
             // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.NumberColumn,
+            this.NameColumn,
+            this.AuthorColumn});
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(12, 108);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(860, 452);
+            this.listView1.Size = new System.Drawing.Size(860, 450);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
@@ -83,6 +90,18 @@ namespace FileManagerProject
             this.domainUpDown1.TabIndex = 4;
             this.domainUpDown1.Text = "domainUpDown1";
             // 
+            // NumberColumn
+            // 
+            this.NumberColumn.Text = "Номер";
+            // 
+            // NameColumn
+            // 
+            this.NameColumn.Text = "Название";
+            // 
+            // AuthorColumn
+            // 
+            this.AuthorColumn.Text = "Автор";
+            // 
             // AmazonWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -108,5 +127,8 @@ namespace FileManagerProject
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.DomainUpDown domainUpDown1;
+        private System.Windows.Forms.ColumnHeader NumberColumn;
+        private System.Windows.Forms.ColumnHeader NameColumn;
+        private System.Windows.Forms.ColumnHeader AuthorColumn;
     }
 }
